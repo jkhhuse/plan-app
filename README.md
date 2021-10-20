@@ -1,24 +1,26 @@
 # plan-app
 
-## Project setup
+
+## 项目安装、运行
+
 ```
-yarn install
+yarn add @capacitor/core @capacitor/cli
+npx cap init [name] [id] --web-dir=dist
+
+yarn run build  
+
+yarn add @capacitor/android
+npx cap add android
 ```
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+## 代码同步到 android app
 
-### Compiles and minifies for production
 ```
-yarn build
-```
+# vue
+yarn run build
 
-### Lints and fixes files
-```
-yarn lint
-```
+npx cap sync
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+# native 
+重启服务
+```

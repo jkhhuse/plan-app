@@ -1,0 +1,6 @@
+{
+	"appId": "com.jkhhuse.plan",
+	"appName": "plan-app",
+	"webDir": "dist",
+	"bundledWebRuntime": false
+}
