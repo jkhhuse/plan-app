@@ -15,8 +15,11 @@
     "@capacitor/cli": "^3.2.5",
     "@capacitor/core": "^3.2.5",
     "@varlet/ui": "^1.22.6",
+    "autoprefixer": "9",
     "core-js": "^3.6.5",
     "less-loader": "^6.2.0",
+    "postcss": "7",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "vue": "^3.0.0",
     "vue-router": "v4"
   },

@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import Varlet from "@varlet/ui";
 import "@varlet/ui/es/style.js";
+import "@/styles/style.css";
 
 const app = createApp(App);
 
