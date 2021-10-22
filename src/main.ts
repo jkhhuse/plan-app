@@ -1,13 +1,12 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import Varlet from "@varlet/ui";
-import "@varlet/ui/es/style.js";
+import Vant from "vant";
+import "vant/lib/index.css";
 import "@/styles/style.css";
 
 const app = createApp(App);
 
 app.use(router);
-app.use(Varlet);
-
+app.use(Vant);
 app.mount("#app");
