@@ -28,6 +28,7 @@ module.exports = {
       },
     ],
     "@typescript-eslint/ban-ts-ignore": 0,
+    "@typescript-eslint/triple-slash-reference": "off"
   },
   overrides: [
     {

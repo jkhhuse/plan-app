@@ -12,18 +12,45 @@
   </div>
   <van-cell-group inset>
     <van-field v-model="profile.name" label="用户昵称" />
-    <van-cell title="选择单个日期" :value="profile.bornTime" @click="showBornTime = true" />
+    <van-field
+      v-model="profile.bornTime"
+      is-link
+      readonly
+      name="calendar"
+      label="出生日期"
+      placeholder="点击选择日期"
+      @click="showBornTime = true"
+    />
     <van-calendar v-model:show="showBornTime" @confirm="onBornTimeConfirm" color="rgb(110, 231, 183)" />
-    <!-- <van-calendar v-model:show="showBornTime" @confirm="onConfirm" /> -->
-    <!-- <van-field v-model="profile.bornTime" type="tel" label="手机号" /> -->
-    <van-field v-model="profile.origin" type="number" label="整数" />
+    <van-field v-model="profile.origin" type="number" label="初始血值" />
+    <van-field v-model="profile.email" type="email" label="邮箱" />
+    <van-field
+      v-model="profile.addr"
+      is-link
+      readonly
+      name="area"
+      label="居住城市"
+      placeholder="点击选择城市"
+      @click="showAddr = true"
+    />
+    <van-popup v-model:show="showAddr" position="bottom">
+      <van-area :area-list="areaList" @confirm="onAddrConfirm" @cancel="showAddr = false" />
+    </van-popup>
+    <van-field v-model="profile.passwd" type="password" label="确认密码" />
   </van-cell-group>
+
+  <div class="p-4">
+    <van-button type="primary" block class="mt-2">保存</van-button>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from "@vue/runtime-core";
 import { Toast } from "vant";
 import { Profile } from "@/types/profile";
+import { areaList } from "@vant/area-data";
+import { VantAreaType } from "@/types/index";
+import * as crypto from "crypto-js";
 
 export default defineComponent({
   setup() {
@@ -38,22 +65,39 @@ export default defineComponent({
     });
 
     const showBornTime = ref<boolean>(false);
+    const showAddr = ref<boolean>(false);
 
     const onBornTimeConfirm = (date: Date) => {
       showBornTime.value = false;
-      profile.value.bornTime = `${date.getMonth() + 1}/${date.getDate()}`;
+      profile.value.bornTime = `${date.getFullYear() + 1}/${date.getMonth() + 1}/${date.getDate()}`;
+    };
+
+    const onAddrConfirm = (values: VantAreaType[]) => {
+      showAddr.value = false;
+      profile.value.addr = values
+        .filter((item: VantAreaType) => !!item)
+        .map((item: VantAreaType) => item.name)
+        .join("/");
     };
 
     const onClickLeft = () => Toast("返回");
 
     const onClickRight = () => Toast("按钮");
 
+    const updateProfile = () => {
+      crypto.DES.decrypt(profile.value.passwd, "plan app").toString();
+    };
+
     return {
       profile,
       showBornTime,
+      showAddr,
+      areaList,
       onBornTimeConfirm,
+      onAddrConfirm,
       onClickLeft,
       onClickRight,
+      updateProfile,
     };
   },
 });
