@@ -17,9 +17,9 @@
       登录
     </van-button>
   </div>
-  <div class="mt-1 flex-auto">
-    <div>注册</div>
-    <div>忘记密码</div>
+  <div class="mt-1 ml-8 mr-8 flex flex-row flex-auto text-sm justify-between">
+    <div class="hover:text-green-500">忘记密码</div>
+    <div class="hover:text-green-500">注册</div>
   </div>
 </template>
 
@@ -35,6 +35,7 @@ export default defineComponent({
 
     const signIn = () => {
       loading.value = true;
+      // 获得 token
     };
 
     return {
