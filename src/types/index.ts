@@ -10,3 +10,8 @@ export interface VantAreaType {
   code: string;
   name: string;
 }
+
+export interface CurrentUserType {
+  token: string;
+  userId: string;
+}
