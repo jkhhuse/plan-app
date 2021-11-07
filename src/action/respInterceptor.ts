@@ -3,6 +3,7 @@ import * as R from "ramda";
 import { map, finalize, tap } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { HttpMessage } from "../types";
+import { authUserInfo } from "@/utils";
 
 export class RespInterceptor implements HttpInterceptor {
   private resolveReferences = (event: HttpResponse<HttpMessage<any>>): HttpMessage<any> | null | any => {
@@ -101,14 +102,23 @@ export class RespInterceptor implements HttpInterceptor {
   };
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const devHeader = req.headers
+    const currentUser = authUserInfo.getCurrentUserValue();
+
+    const baseHeader = req.headers
       .set("X-Requested-With", "XMLHttpRequest")
       .set("Set-Cookie", "SameSite=none")
       .set("pragma", "no-cache")
       .set("Cache-Control", "no-cache");
 
+    const authHeader = req.headers
+      .set("X-Requested-With", "XMLHttpRequest")
+      .set("Set-Cookie", "SameSite=none")
+      .set("pragma", "no-cache")
+      .set("Cache-Control", "no-cache")
+      .set("Authorization", `Bearer ${currentUser.token}`);
+
     const authReq = req.clone({
-      headers: process.env.NODE_ENV === "development" ? devHeader : devHeader,
+      headers: currentUser && currentUser.token ? authHeader : baseHeader,
       withCredentials: true,
     });
 
