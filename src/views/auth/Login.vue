@@ -25,6 +25,8 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "@vue/runtime-core";
+import { login } from "@/action/auth/auth";
+import { HttpMessage } from "@/types/index";
 // import * as crypto from "crypto-js";
 
 export default defineComponent({
@@ -34,8 +36,18 @@ export default defineComponent({
     const loading = ref<boolean>(false);
 
     const signIn = () => {
-      loading.value = true;
+      // loading.value = true;
+      // eslint-disable-next-line no-debugger
       // 获得 token
+      login({
+        username: username.value,
+        passwd: passwd.value,
+      }).subscribe((res: HttpMessage<string>) => {
+        if (res.code === "200") {
+          //
+          console.log("success");
+        }
+      });
     };
 
     return {
