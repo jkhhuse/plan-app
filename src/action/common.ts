@@ -20,7 +20,7 @@ export const handleError = (error: HttpErrorResponse) => {
     .getMessage()
     .pipe(take(1))
     .subscribe((msg: any) => {
-      alert(msg.text);
+      // alert(msg.text);
       // Vue.prototype.$Message.error({
       //   content: msg.text,
       //   duration: 5,

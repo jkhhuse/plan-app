@@ -8,11 +8,11 @@ import { retryBackoff } from "backoff-rxjs";
 import { Profile } from "@/types/profile";
 
 /**
- * 
+ *
  * @returns HttpMessage<Profile>
  */
 export const getProfile = (): Observable<HttpMessage<Profile>> => {
-  const url = PLAN_SERVER + `tree`;
+  const url = PLAN_SERVER + `person/findUserInfo`;
   return http.get<HttpMessage<Profile>>(url).pipe(
     retryBackoff({
       initialInterval: 4000,

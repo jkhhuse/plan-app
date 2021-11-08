@@ -40,17 +40,18 @@
   </van-cell-group>
 
   <div class="p-4">
-    <van-button type="primary" block class="mt-2">保存</van-button>
+    <van-button type="primary" block class="mt-2" @click="saveProfile">保存</van-button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "@vue/runtime-core";
+import { defineComponent, onMounted, ref } from "@vue/runtime-core";
 import { Toast } from "vant";
 import { Profile } from "@/types/profile";
 import { areaList } from "@vant/area-data";
-import { VantAreaType } from "@/types/index";
+import { HttpMessage, VantAreaType } from "@/types/index";
 import * as crypto from "crypto-js";
+import { getProfile } from "@/action/profile/profile";
 
 export default defineComponent({
   setup() {
@@ -88,6 +89,16 @@ export default defineComponent({
       crypto.DES.decrypt(profile.value.passwd, "plan app").toString();
     };
 
+    onMounted(() => {
+      getProfile().subscribe((res: HttpMessage<Profile>) => {
+        profile.value = res.data;
+        console.log(res.data);
+      });
+    });
+
+    // const saveProfile = () => {
+    // }
+
     return {
       profile,
       showBornTime,
@@ -98,6 +109,7 @@ export default defineComponent({
       onClickLeft,
       onClickRight,
       updateProfile,
+      // saveProfile
     };
   },
 });

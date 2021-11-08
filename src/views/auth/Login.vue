@@ -26,7 +26,9 @@
 <script lang="ts">
 import { defineComponent, ref } from "@vue/runtime-core";
 import { login } from "@/action/auth/auth";
-import { HttpMessage } from "@/types/index";
+import { CurrentUserType, HttpMessage } from "@/types/index";
+import route from "@/router";
+import { authUserInfo } from "@/utils";
 // import * as crypto from "crypto-js";
 
 export default defineComponent({
@@ -36,16 +38,21 @@ export default defineComponent({
     const loading = ref<boolean>(false);
 
     const signIn = () => {
-      // loading.value = true;
-      // eslint-disable-next-line no-debugger
+      loading.value = true;
       // 获得 token
       login({
         username: username.value,
         passwd: passwd.value,
-      }).subscribe((res: HttpMessage<string>) => {
+      }).subscribe((res: HttpMessage<CurrentUserType>) => {
         if (res.code === "200") {
-          //
-          console.log("success");
+          loading.value = false;
+          authUserInfo.setCurrentUserValue({
+            token: res.data.token,
+            userId: res.data.userId,
+          });
+          route.push("/main/profile");
+        } else {
+          loading.value = false;
         }
       });
     };

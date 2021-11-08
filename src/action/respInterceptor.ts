@@ -104,17 +104,19 @@ export class RespInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const currentUser = authUserInfo.getCurrentUserValue();
 
-    const baseHeader = req.headers;
-    // .set("X-Requested-With", "XMLHttpRequest")
-    // .set("Set-Cookie", "SameSite=none")
-    // .set("pragma", "no-cache") ;
+    const baseHeader = req.headers
+      .set("X-Requested-With", "XMLHttpRequest")
+      .set("Set-Cookie", "SameSite=none")
+      .set("pragma", "no-cache");
 
     const authReq = req.clone({
       headers:
         currentUser && currentUser?.token
-          ? baseHeader.set("Authorization", `Bearer ${currentUser.token}`)
+          ? baseHeader
+              .set("Authorization", `Bearer ${currentUser.token}`)
+              .set("user_id", `${currentUser.userId}`)
           : baseHeader,
-      withCredentials: false,
+      withCredentials: true,
     });
 
     const started = Date.now();
