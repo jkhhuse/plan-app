@@ -6,6 +6,13 @@ const routes = [
     component: () => import("@/components/container/main-layout/MainPageLayout.vue"),
     children: [
       {
+        path: "/main/density",
+        name: "Density",
+        components: {
+          "main-container": () => import("@/views/density/Density.vue"),
+        },
+      },
+      {
         path: "/main/profile",
         name: "Profile",
         components: {
