@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-auto absolute top-0 left-0 right-0 bottom-50 bg-gray-50">
+  <div class="overflow-auto absolute top-0 left-0 right-0 bottom-50 bg-dark-bg">
     <router-view name="main-container"></router-view>
   </div>
   <van-tabbar class="absolute height-50 w-full bottom-0" v-model="active" @change="onChange">
