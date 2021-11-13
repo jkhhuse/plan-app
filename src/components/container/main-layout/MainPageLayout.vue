@@ -29,6 +29,7 @@ export default defineComponent({
       () => {
         switch (route.path) {
           case "/main/density":
+          case "/main/density/addDensity":
             active.value = "density";
             break;
           case "/main/cookbook":
@@ -51,7 +52,7 @@ export default defineComponent({
     );
 
     const onChange = () => {
-      router.push(active.value);
+      router.push("/main/" + active.value);
     };
 
     return {

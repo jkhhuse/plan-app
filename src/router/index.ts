@@ -17,6 +17,13 @@ const routes = [
         },
       },
       {
+        path: "/main/density/addDensity",
+        name: "AddDensity",
+        components: {
+          "main-container": () => import("@/views/density/AddDensity.vue"),
+        },
+      },
+      {
         path: "/main/profile",
         name: "Profile",
         components: {

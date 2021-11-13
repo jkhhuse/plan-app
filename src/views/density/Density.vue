@@ -7,8 +7,23 @@
     <div>头像</div>
   </div>
   <div class="text-right mr-2">
-    <van-button icon="plus" type="default" size="mini" class="p-2 border-green-500 text-green-500">
-      添加记录
+    <van-button
+      @click="addDensity"
+      icon="plus"
+      type="default"
+      size="mini"
+      class="p-2 border-green-500 text-green-500"
+    >
+      增加喂养记录
+    </van-button>
+    <van-button
+      @click="addDensity"
+      icon="plus"
+      type="default"
+      size="mini"
+      class="p-2 border-green-500 text-green-500"
+    >
+      增加生长记录
     </van-button>
   </div>
   <div class="text-left m-2 mt-4 bg-white p-2 rounded-md">
@@ -19,12 +34,16 @@
     <div class="text-sm">血值控制比例</div>
     <ScaleChart />
   </div>
+  <div class="text-left m-2 mt-4 bg-white p-2 rounded-md">
+    <div class="text-sm">最近5次测量血值分析</div>
+  </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "@vue/runtime-core";
 import StatsChart from "./components/StatsChart.vue";
 import ScaleChart from "./components/ScaleChart.vue";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   components: {
@@ -32,7 +51,15 @@ export default defineComponent({
     ScaleChart,
   },
   setup() {
-    return {};
+    const router = useRouter();
+
+    const addDensity = () => {
+      router.push("/main/density/addDensity");
+    };
+
+    return {
+      addDensity,
+    };
   },
 });
 </script>
