@@ -1,133 +1,82 @@
 <template>
   <van-nav-bar
-    title="指标记录"
+    title="添加血值记录"
     left-text="返回"
-    right-text="添加"
+    right-text="回到首页"
     left-arrow
     @click-left="onClickLeft"
     @click-right="onClickRight"
   />
   <div class="bg-white"></div>
-  <van-calendar
-    title=""
-    :poppable="false"
-    :show-confirm="false"
-    :style="{ height: '310px' }"
-    color="rgb(110, 231, 183)"
-  />
-  <div class="mt-2">
-    <div>苯摄入量</div>
-    <div>特奶量</div>
-  </div>
-  <van-steps direction="vertical" @click-step="clickStep" :active="0">
-    <van-step>
-      <h3>【城市】物流状态1</h3>
-      <p>2016-07-12 12:40</p>
-    </van-step>
-    <van-step>
-      <h3>【城市】物流状态2</h3>
-      <p>2016-07-11 10:00</p>
-    </van-step>
-    <van-step>
-      <h3>快件已发货</h3>
-      <p>2016-07-10 09:30</p>
-    </van-step>
-  </van-steps>
-  <van-cell-group inset class="mt-5">
-    <van-calendar v-model:show="showBornTime" @confirm="onBornTimeConfirm" color="rgb(110, 231, 183)" />
-    <van-field v-model="profile.origin" type="number" label="初始血值" />
-    <van-field v-model="profile.email" type="email" label="邮箱" />
+  <van-cell-group class="bg-white pt-4">
     <van-field
-      v-model="profile.addr"
+      v-model="density.densityTime"
       is-link
       readonly
-      name="area"
-      label="居住城市"
-      placeholder="点击选择城市"
-      @click="showAddr = true"
+      name="calendar"
+      label="采血时间"
+      placeholder="点击选择日期"
+      @click="showPicker = true"
     />
-    <van-popup v-model:show="showAddr" position="bottom">
-      <van-area :area-list="areaList" @confirm="onAddrConfirm" @cancel="showAddr = false" />
-    </van-popup>
-    <van-field v-model="profile.passwd" type="password" label="确认密码" />
+    <van-calendar v-model:show="showPicker" @confirm="setDensityTime" color="rgb(110, 231, 183)" />
+    <van-field v-model="density.record" type="text" label="血值" />
+    <div class="p-4">
+      <van-button type="primary" block class="mt-2" @click="saveProfile">保存</van-button>
+    </div>
   </van-cell-group>
-  <div class="p-4">
-    <van-button type="primary" block class="mt-2" @click="saveProfile">保存</van-button>
-  </div>
 </template>
 
 <script lang="ts">
+import { Density } from "@/types/density";
 import { defineComponent, onMounted, ref } from "@vue/runtime-core";
 import { Toast } from "vant";
-import { Profile } from "@/types/profile";
-import { areaList } from "@vant/area-data";
-import { HttpMessage, VantAreaType } from "@/types/index";
-import * as crypto from "crypto-js";
-import { getProfile } from "@/action/profile/profile";
-import { useRouter } from "vue-router";
+// import { HttpMessage } from "@/types/index";
+import { useRoute, useRouter } from "vue-router";
+import { formatDate } from "@/utils/tool";
 
 export default defineComponent({
   setup() {
     const router = useRouter();
-
-    const profile = ref<Profile>({
-      name: "",
-      bornTime: "",
-      origin: 0,
-      createTime: "",
-      addr: "",
-      email: "",
-      passwd: "",
+    const route = useRoute();
+    const showPicker = ref<boolean>(false);
+    const density = ref<Density>({
+      densityTime: formatDate(new Date()),
+      record: 0,
     });
-
-    const showBornTime = ref<boolean>(false);
-    const showAddr = ref<boolean>(false);
-
-    const onBornTimeConfirm = (date: Date) => {
-      showBornTime.value = false;
-      profile.value.bornTime = `${date.getFullYear() + 1}/${date.getMonth() + 1}/${date.getDate()}`;
-    };
-
-    const onAddrConfirm = (values: VantAreaType[]) => {
-      showAddr.value = false;
-      profile.value.addr = values
-        .filter((item: VantAreaType) => !!item)
-        .map((item: VantAreaType) => item.name)
-        .join("/");
-    };
 
     const onClickLeft = () => {
       router.push("/main/profile");
     };
 
-    const onClickRight = () => Toast("按钮");
-
-    const updateProfile = () => {
-      crypto.DES.decrypt(profile.value.passwd, "plan app").toString();
-    };
+    const onClickRight = () => {
+      router.push()
+    }
 
     onMounted(() => {
-      getProfile().subscribe((res: HttpMessage<Profile>) => {
-        profile.value = res.data;
-        console.log(res.data);
-      });
+      console.log();
     });
 
-    const clickStep = () => {
-      alert();
+    const showPopup = () => {
+      showPicker.value = true;
+    };
+
+    const setDensityTime = (currentDate: any) => {
+      density.value.densityTime = `
+        ${currentDate.getFullYear() + 1}-
+        ${currentDate.getMonth() + 1}-
+        ${currentDate.getDate()}
+      `;
+      showPicker.value = false;
     };
 
     return {
-      profile,
-      showBornTime,
-      showAddr,
-      areaList,
-      onBornTimeConfirm,
-      onAddrConfirm,
+      showPicker,
+      density,
+      route,
       onClickLeft,
       onClickRight,
-      updateProfile,
-      clickStep,
+      showPopup,
+      setDensityTime,
     };
   },
 });

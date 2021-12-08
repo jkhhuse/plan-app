@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "@vue/runtime-core";
-import { login } from "@/action/auth/auth";
+import { login } from "@/action/auth";
 import { CurrentUserType, HttpMessage } from "@/types/index";
 import route from "@/router";
 import { authUserInfo } from "@/utils";

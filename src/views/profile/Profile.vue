@@ -51,7 +51,7 @@ import { Profile } from "@/types/profile";
 import { areaList } from "@vant/area-data";
 import { HttpMessage, VantAreaType } from "@/types/index";
 import * as crypto from "crypto-js";
-import { getProfile } from "@/action/profile/profile";
+import { getProfile } from "@/action/profile";
 
 export default defineComponent({
   setup() {

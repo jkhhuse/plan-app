@@ -1,4 +1,4 @@
-import { HttpSingleton } from "./httpSingleton";
+import { HttpSingleton } from "./common/httpSingleton";
 
 const http = HttpSingleton.getInstance();
 

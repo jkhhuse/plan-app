@@ -1,11 +1,11 @@
 import { CurrentUserType, HttpMessage } from "@/types/index";
 import { Observable } from "rxjs";
 import { catchError } from "rxjs/operators";
-import { http } from "@/action/index";
+import { http } from "@/action";
 import { PLAN_SERVER } from "@/constants/common";
-import { handleError } from "@/action/common";
 import { retryBackoff } from "backoff-rxjs";
 import { LoginInfo } from "@/types/auth";
+import { handleError } from "@/action/common/handle";
 
 /**
  *

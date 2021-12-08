@@ -1,12 +1,12 @@
 import { HttpErrorResponse } from "@cmss/http-client-rxjs";
-import { throwError } from "rxjs";
+import { throwError, Observable } from "rxjs";
 import { catchError, take } from "rxjs/operators";
-import { http } from "./index";
+import { http } from "..";
 import { messageService } from "./messageService";
 // import { HttpMessage } from "@/types";
 
 // 用于 rxjs 的错误处理
-export const handleError = (error: HttpErrorResponse) => {
+export const handleError = (error: HttpErrorResponse): Observable<never> => {
   let message = "";
   if (error.error instanceof ErrorEvent) {
     // 用户侧自定义包装错误信息或者网络超时等
@@ -31,7 +31,7 @@ export const handleError = (error: HttpErrorResponse) => {
 };
 
 // 用于 rxjs 的错误处理，不弹出服务端错误的提示框
-export const handleErrorWithNoMessage = (error: HttpErrorResponse) => {
+export const handleErrorWithNoMessage = (error: HttpErrorResponse): Observable<never> => {
   return throwError(error.error);
 };
 

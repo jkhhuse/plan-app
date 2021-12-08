@@ -1,8 +1,8 @@
 <template>
-  <div class="overflow-auto absolute top-0 left-0 right-0 bottom-50 bg-dark-bg">
+  <div class="overflow-auto top-0 left-0 right-0 pb-12 bottom-50 bg-dark-bg">
     <router-view name="main-container"></router-view>
   </div>
-  <van-tabbar class="absolute height-50 w-full bottom-0" v-model="active" @change="onChange">
+  <van-tabbar class="height-50 w-full bottom-0" v-model="active" @change="onChange">
     <van-tabbar-item name="density" icon="home-o">指标</van-tabbar-item>
     <van-tabbar-item name="news" icon="friends-o">食物</van-tabbar-item>
     <van-tabbar-item name="cookbook" icon="search">菜谱</van-tabbar-item>

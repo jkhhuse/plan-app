@@ -8,22 +8,22 @@
   </div>
   <div class="text-right mr-2">
     <van-button
-      @click="addDensity"
+      @click="displayDensity"
       icon="plus"
       type="default"
       size="mini"
       class="p-2 border-green-500 text-green-500"
     >
-      增加喂养记录
+      查看喂养
     </van-button>
     <van-button
-      @click="addDensity"
+      @click="displayDiet"
       icon="plus"
       type="default"
       size="mini"
       class="p-2 border-green-500 text-green-500"
     >
-      增加生长记录
+      查看血值
     </van-button>
   </div>
   <div class="text-left m-2 mt-4 bg-white p-2 rounded-md">
@@ -53,12 +53,17 @@ export default defineComponent({
   setup() {
     const router = useRouter();
 
-    const addDensity = () => {
-      router.push("/main/density/addDensity");
+    const displayDensity = () => {
+      router.push("/main/density/displayDensity");
+    };
+
+    const displayDiet = () => {
+      router.push("/main/density/displayDiet");
     };
 
     return {
-      addDensity,
+      displayDensity,
+      displayDiet,
     };
   },
 });

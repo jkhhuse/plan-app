@@ -17,10 +17,24 @@ const routes = [
         },
       },
       {
+        path: "/main/density/displayDensity",
+        name: "DisplayDensity",
+        components: {
+          "main-container": () => import("@/views/density/DisplayDensity.vue"),
+        },
+      },
+      {
         path: "/main/density/addDensity",
         name: "AddDensity",
         components: {
           "main-container": () => import("@/views/density/AddDensity.vue"),
+        },
+      },
+      {
+        path: "/main/density/addDiet/:date",
+        name: "addDiet",
+        components: {
+          "main-container": () => import("@/views/density/AddDiet.vue"),
         },
       },
       {

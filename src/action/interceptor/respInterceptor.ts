@@ -2,7 +2,7 @@ import { HttpInterceptor, HttpRequest, HttpHandler, HttpResponse, HttpEvent } fr
 import * as R from "ramda";
 import { map, finalize, tap } from "rxjs/operators";
 import { Observable } from "rxjs";
-import { HttpMessage } from "../types";
+import { HttpMessage } from "@/types";
 import { authUserInfo } from "@/utils";
 
 export class RespInterceptor implements HttpInterceptor {

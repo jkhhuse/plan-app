@@ -1,5 +1,5 @@
 import { RestClient } from "@cmss/http-client-rxjs";
-import { RespInterceptor } from "./respInterceptor";
+import { RespInterceptor } from "@/action/interceptor/respInterceptor";
 
 class HttpSingleton {
   private static instance: RestClient;
