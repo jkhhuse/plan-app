@@ -24,6 +24,13 @@ const routes = [
         },
       },
       {
+        path: "/main/density/displayDiet",
+        name: "DisplayDiet",
+        components: {
+          "main-container": () => import("@/views/density/DisplayDiet.vue"),
+        },
+      },
+      {
         path: "/main/density/addDensity",
         name: "AddDensity",
         components: {

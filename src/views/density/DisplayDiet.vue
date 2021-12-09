@@ -40,13 +40,12 @@
 import { defineComponent, onMounted, ref } from "@vue/runtime-core";
 import { Profile } from "@/types/profile";
 import { HttpMessage } from "@/types/index";
-import { getProfile } from "@/action/profile/profile";
+import { getProfile } from "@/action/profile";
 import { useRouter } from "vue-router";
 
 export default defineComponent({
   setup() {
     const router = useRouter();
-
     const profile = ref<Profile>({
       name: "",
       bornTime: "",

@@ -10,7 +10,7 @@
   <div class="bg-white"></div>
   <van-cell-group class="bg-white pt-4">
     <van-field
-      v-model="density.densityTime"
+      v-model="density.measureTime"
       is-link
       readonly
       name="calendar"
@@ -19,9 +19,9 @@
       @click="showPicker = true"
     />
     <van-calendar v-model:show="showPicker" @confirm="setDensityTime" color="rgb(110, 231, 183)" />
-    <van-field v-model="density.record" type="text" label="血值" />
+    <van-field v-model="density.measureValue" type="text" label="血值" />
     <div class="p-4">
-      <van-button type="primary" block class="mt-2" @click="saveProfile">保存</van-button>
+      <van-button type="primary" block class="mt-2" @click="saveDensity">保存</van-button>
     </div>
   </van-cell-group>
 </template>
@@ -29,7 +29,6 @@
 <script lang="ts">
 import { Density } from "@/types/density";
 import { defineComponent, onMounted, ref } from "@vue/runtime-core";
-import { Toast } from "vant";
 // import { HttpMessage } from "@/types/index";
 import { useRoute, useRouter } from "vue-router";
 import { formatDate } from "@/utils/tool";
@@ -40,33 +39,33 @@ export default defineComponent({
     const route = useRoute();
     const showPicker = ref<boolean>(false);
     const density = ref<Density>({
-      densityTime: formatDate(new Date()),
-      record: 0,
+      measureTime: formatDate(new Date()),
+      measureValue: 0,
     });
 
     const onClickLeft = () => {
-      router.push("/main/profile");
+      router.push("/main/density/displayDensity");
     };
 
     const onClickRight = () => {
-      router.push()
-    }
+      router.push("/main/density");
+    };
 
     onMounted(() => {
       console.log();
     });
 
-    const showPopup = () => {
-      showPicker.value = true;
-    };
-
     const setDensityTime = (currentDate: any) => {
-      density.value.densityTime = `
+      density.value.measureTime = `
         ${currentDate.getFullYear() + 1}-
         ${currentDate.getMonth() + 1}-
         ${currentDate.getDate()}
       `;
       showPicker.value = false;
+    };
+
+    const saveDensity = () => {
+      console.log();
     };
 
     return {
@@ -75,8 +74,8 @@ export default defineComponent({
       route,
       onClickLeft,
       onClickRight,
-      showPopup,
       setDensityTime,
+      saveDensity,
     };
   },
 });

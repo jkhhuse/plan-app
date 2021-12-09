@@ -22,6 +22,10 @@ export default function useDensity(): any {
     });
   };
 
+  const onLoad = () => {
+    limit.value = limit.value + 1;
+  };
+
   watch(
     () => limit.value,
     () => {
@@ -38,7 +42,6 @@ export default function useDensity(): any {
     loadFinished,
     finishedText,
     loading,
-    limit,
-    size,
+    onLoad,
   };
 }

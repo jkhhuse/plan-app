@@ -1,6 +1,8 @@
 export interface Density {
-  densityTime: string;
-  record: number;
+  uuid?: string;
+  personUuid?: string;
+  measureTime: string;
+  measureValue: number;
 }
 
 export type DensityList = Density[];
