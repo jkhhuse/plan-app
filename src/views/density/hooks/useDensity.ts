@@ -1,7 +1,7 @@
-import { getDensityList } from "@/action/density";
+import { getAllDensityList } from "@/action/density";
 import { HttpMessage } from "@/types";
 import { DensityList } from "@/types/density";
-import { onMounted, ref, watch } from "@vue/runtime-dom";
+import { ref, watch } from "@vue/runtime-dom";
 
 export default function useDensity(): any {
   const densityList = ref<DensityList>([]);
@@ -12,7 +12,7 @@ export default function useDensity(): any {
   const size = ref<number>(20);
 
   const fetchDensityList = (limit: number, size: number) => {
-    getDensityList(limit, size).subscribe((res: HttpMessage<DensityList>) => {
+    getAllDensityList().subscribe((res: HttpMessage<DensityList>) => {
       if (res.data.length > 0) {
         densityList.value = densityList.value.concat(res.data);
         loading.value = false;
@@ -32,10 +32,6 @@ export default function useDensity(): any {
       fetchDensityList(limit.value, size.value);
     },
   );
-
-  onMounted(() => {
-    fetchDensityList(limit.value, size.value);
-  });
 
   return {
     densityList,

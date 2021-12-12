@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-auto top-0 left-0 right-0 pb-12 bottom-50 bg-dark-bg">
+  <div class="overflow-auto top-0 left-0 right-0 pb-12 bottom-50">
     <router-view name="main-container"></router-view>
   </div>
   <van-tabbar class="height-50 w-full bottom-0" v-model="active" @change="onChange">
@@ -27,23 +27,14 @@ export default defineComponent({
     watch(
       () => route.query,
       () => {
-        switch (route.path) {
-          case "/main/density":
-          case "/main/density/addDensity":
-            active.value = "density";
-            break;
-          case "/main/cookbook":
-            active.value = "cookbook";
-            break;
-          case "/main/news":
-            active.value = "news";
-            break;
-          case "/main/profile":
-            active.value = "profile";
-            break;
-          default:
-            active.value = "profile";
-            break;
+        if (route.path.includes("/main/density")) {
+          active.value = "density";
+        } else if (route.path.includes("/main/cookbook")) {
+          active.value = "cookbook";
+        } else if (route.path.includes("/main/news")) {
+          active.value = "cookbook";
+        } else {
+          active.value = "profile";
         }
       },
       {

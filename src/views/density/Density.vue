@@ -8,7 +8,7 @@
   </div>
   <div class="text-right mr-2">
     <van-button
-      @click="displayDensity"
+      @click="displayDiet"
       icon="plus"
       type="default"
       size="mini"
@@ -17,7 +17,7 @@
       查看喂养
     </van-button>
     <van-button
-      @click="displayDiet"
+      @click="displayDensity"
       icon="plus"
       type="default"
       size="mini"
