@@ -4,8 +4,8 @@
     left-text="返回"
     right-text="回到首页"
     left-arrow
-    @click-left="onClickLeft"
-    @click-right="onClickRight"
+    @click-left="jumpToDisplayDensityPage"
+    @click-right="jumpToDensityPage"
   />
   <div class="bg-white"></div>
   <van-cell-group class="bg-white pt-4">
@@ -28,10 +28,12 @@
 
 <script lang="ts">
 import { Density } from "@/types/density";
-import { defineComponent, onMounted, ref } from "@vue/runtime-core";
+import { defineComponent, ref } from "@vue/runtime-core";
 // import { HttpMessage } from "@/types/index";
 import { useRoute, useRouter } from "vue-router";
 import { formatDate } from "@/utils/tool";
+import { addDensity } from "@/action/density";
+import { HttpMessage } from "@/types";
 
 export default defineComponent({
   setup() {
@@ -43,17 +45,13 @@ export default defineComponent({
       measureValue: 0,
     });
 
-    const onClickLeft = () => {
+    const jumpToDisplayDensityPage = () => {
       router.push("/main/density/displayDensity");
     };
 
-    const onClickRight = () => {
+    const jumpToDensityPage = () => {
       router.push("/main/density");
     };
-
-    onMounted(() => {
-      console.log();
-    });
 
     const setDensityTime = (currentDate: any) => {
       density.value.measureTime = `
@@ -65,15 +63,21 @@ export default defineComponent({
     };
 
     const saveDensity = () => {
-      console.log();
+      addDensity(density.value.measureTime, density.value.measureValue).subscribe(
+        (res: HttpMessage<string>) => {
+          if (res.code === "200") {
+            jumpToDisplayDensityPage();
+          }
+        },
+      );
     };
 
     return {
       showPicker,
       density,
       route,
-      onClickLeft,
-      onClickRight,
+      jumpToDisplayDensityPage,
+      jumpToDensityPage,
       setDensityTime,
       saveDensity,
     };

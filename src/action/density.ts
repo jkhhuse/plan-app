@@ -12,7 +12,7 @@ import { DensityList } from "@/types/density";
  * @returns HttpMessage<Profile>
  */
 export const getAllDensityList = (): Observable<HttpMessage<DensityList>> => {
-  const url = PLAN_SERVER + "density/measure/dimension/all";
+  const url = PLAN_SERVER + "density/dimension/all";
   return http.get<HttpMessage<DensityList>>(url).pipe(
     retryBackoff({
       initialInterval: 4000,
@@ -28,7 +28,7 @@ export const getAllDensityList = (): Observable<HttpMessage<DensityList>> => {
  * @returns
  */
 export const addDensity = (measureTime: string, measureValue: number): Observable<HttpMessage<string>> => {
-  const url = PLAN_SERVER + "density/measure/add";
+  const url = PLAN_SERVER + "density/add";
   return http
     .post<HttpMessage<string>>(url, {
       measureTime: measureTime,
@@ -36,6 +36,7 @@ export const addDensity = (measureTime: string, measureValue: number): Observabl
     })
     .pipe(
       retryBackoff({
+        maxRetries: 0,
         initialInterval: 4000,
       }),
       catchError(handleError),
