@@ -42,6 +42,7 @@ import { Profile } from "@/types/profile";
 import { HttpMessage } from "@/types/index";
 import { getProfile } from "@/action/profile";
 import { useRouter } from "vue-router";
+import { formatDate } from "@/utils/tool";
 
 export default defineComponent({
   setup() {
@@ -55,18 +56,18 @@ export default defineComponent({
       email: "",
       passwd: "",
     });
-    const selectedTime = ref<string>("");
+    const selectedTime = ref<string>(formatDate(new Date()));
 
     const onSelectDate = (date: Date) => {
-      selectedTime.value = `${date.getFullYear() + 1}-${date.getMonth() + 1}-${date.getDate()}`;
+      selectedTime.value = formatDate(date);
     };
 
     const onClickLeft = () => {
-      router.push("/main/profile");
+      router.push("/main/density");
     };
 
     const onClickRight = () => {
-      router.push(`/main/density/addDensity/${selectedTime.value}`);
+      router.push(`/main/density/addDiet/${selectedTime.value}`);
     };
 
     onMounted(() => {

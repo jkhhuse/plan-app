@@ -11,7 +11,7 @@ import { DensityList } from "@/types/density";
  * 获得血值的列表
  * @returns HttpMessage<Profile>
  */
-export const getAllDensityList = (): Observable<HttpMessage<DensityList>> => {
+export const getAllDensityListAction = (): Observable<HttpMessage<DensityList>> => {
   const url = PLAN_SERVER + "density/dimension/all";
   return http.get<HttpMessage<DensityList>>(url).pipe(
     retryBackoff({
@@ -27,7 +27,10 @@ export const getAllDensityList = (): Observable<HttpMessage<DensityList>> => {
  * @param measureValue 采集数值
  * @returns
  */
-export const addDensity = (measureTime: string, measureValue: number): Observable<HttpMessage<string>> => {
+export const addDensityAction = (
+  measureTime: string,
+  measureValue: number,
+): Observable<HttpMessage<string>> => {
   const url = PLAN_SERVER + "density/add";
   return http
     .post<HttpMessage<string>>(url, {
@@ -48,7 +51,7 @@ export const addDensity = (measureTime: string, measureValue: number): Observabl
  * @param densityUuid uuid
  * @returns string
  */
-export const removeDensity = (densityUuid: string): Observable<HttpMessage<string>> => {
+export const removeDensityAction = (densityUuid: string): Observable<HttpMessage<string>> => {
   const url = PLAN_SERVER + "density/delete/" + densityUuid;
   return http.delete<HttpMessage<string>>(url).pipe(
     retryBackoff({
@@ -63,8 +66,8 @@ export const removeDensity = (densityUuid: string): Observable<HttpMessage<strin
  * @param densityTime 采血时间
  * @returns string
  */
-export const isDuplicateDensity = (densityTime: string): Observable<HttpMessage<string>> => {
-  const url = PLAN_SERVER + "/density/duplicate/" + densityTime;
+export const isDuplicateDensityAction = (densityTime: string): Observable<HttpMessage<string>> => {
+  const url = PLAN_SERVER + "density/duplicate/" + densityTime;
   return http.get<HttpMessage<string>>(url).pipe(
     retryBackoff({
       initialInterval: 4000,
@@ -80,12 +83,12 @@ export const isDuplicateDensity = (densityTime: string): Observable<HttpMessage<
  * @param measureValue 采集数值
  * @returns string
  */
-export const updateDensity = (
+export const updateDensityAction = (
   densityUuid: string,
   measureTime: string,
   measureValue: number,
 ): Observable<HttpMessage<string>> => {
-  const url = PLAN_SERVER + "/density/update/" + densityUuid;
+  const url = PLAN_SERVER + "density/update/" + densityUuid;
   return http
     .put<HttpMessage<string>>(url, {
       measureTime: measureTime,
@@ -105,8 +108,11 @@ export const updateDensity = (
  * @param endTime 结束时间
  * @returns List
  */
-export const getDensityRange = (startTime: string, endTime: string): Observable<HttpMessage<string>> => {
-  const url = PLAN_SERVER + "/density/dimension";
+export const getDensityRangeAction = (
+  startTime: string,
+  endTime: string,
+): Observable<HttpMessage<string>> => {
+  const url = PLAN_SERVER + "density/dimension";
   return http
     .post<HttpMessage<string>>(url, {
       startTime: startTime,

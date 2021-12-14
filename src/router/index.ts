@@ -38,6 +38,13 @@ const routes = [
         },
       },
       {
+        path: "/main/density/updateDensity/:uuid/:measureTime/:measureValue",
+        name: "EditDensity",
+        components: {
+          "main-container": () => import("@/views/density/EditDensity.vue"),
+        },
+      },
+      {
         path: "/main/density/addDiet/:date",
         name: "addDiet",
         components: {

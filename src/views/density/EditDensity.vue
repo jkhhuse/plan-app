@@ -1,6 +1,6 @@
 <template>
   <van-nav-bar
-    title="添加血值记录"
+    title="更新血值记录"
     left-text="返回"
     right-text="回到首页"
     left-arrow
@@ -28,18 +28,19 @@
 
 <script lang="ts">
 import { Density } from "@/types/density";
-import { defineComponent, ref } from "@vue/runtime-core";
-// import { HttpMessage } from "@/types/index";
+import { defineComponent, ref, watch } from "@vue/runtime-core";
 import { useRoute, useRouter } from "vue-router";
 import { formatDate } from "@/utils/tool";
-import { addDensityAction } from "@/action/density";
+import { updateDensityAction } from "@/action/density";
 import { HttpMessage } from "@/types";
+import { Notify } from "vant";
 
 export default defineComponent({
   setup() {
     const router = useRouter();
     const route = useRoute();
     const showPicker = ref<boolean>(false);
+
     const density = ref<Density>({
       measureTime: formatDate(new Date()),
       measureValue: 0,
@@ -53,6 +54,20 @@ export default defineComponent({
       router.push("/main/density");
     };
 
+    watch(
+      () => route.params.uuid,
+      () => {
+        density.value = {
+          uuid: route.params.uuid as string,
+          measureTime: route.params.measureTime as string,
+          measureValue: +route.params.measureValue,
+        };
+      },
+      {
+        immediate: true,
+      },
+    );
+
     const setDensityTime = (currentDate: any) => {
       density.value.measureTime = `${currentDate.getFullYear() + 1}-${
         currentDate.getMonth() + 1
@@ -61,13 +76,18 @@ export default defineComponent({
     };
 
     const saveDensity = () => {
-      addDensityAction(density.value.measureTime, density.value.measureValue).subscribe(
-        (res: HttpMessage<string>) => {
-          if (res.code === "200") {
-            jumpToDisplayDensityPage();
-          }
-        },
-      );
+      updateDensityAction(
+        density.value.uuid as string,
+        density.value.measureTime,
+        +density.value.measureValue,
+      ).subscribe((res: HttpMessage<string>) => {
+        if (res.code === "200") {
+          Notify({ type: "success", message: "更新成功" });
+          jumpToDisplayDensityPage();
+        } else {
+          Notify({ type: "warning", message: "更新失败" });
+        }
+      });
     };
 
     return {
