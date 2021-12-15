@@ -17,4 +17,6 @@ export interface Diet {
   dietTime: string;
   dietType: DietType;
   pheValue: number;
+  specialMilk: number /** 特奶 */;
+  breastMilk: number /** 母乳 */;
 }

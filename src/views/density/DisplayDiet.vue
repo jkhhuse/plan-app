@@ -63,6 +63,9 @@ export default defineComponent({
         // 更新 list 数据
         refreshDietList(selectedTime.value);
       },
+      {
+        immediate: true,
+      },
     );
 
     const clickStep = () => {

@@ -42,7 +42,9 @@
       @confirm="setDietType"
     />
   </van-popup>
-  <van-field v-model="diet.pheValue" type="text" label="苯计算" />
+  <van-field v-if="diet.dietType === 0" v-model="diet.specialMilk" type="number" label="特奶量(ml)" />
+  <van-field v-if="diet.dietType === 1" v-model="diet.breastMilk" type="number" label="母乳量(ml)" />
+  <van-field v-model="diet.pheValue" type="number" label="苯计算(mg)" />
   <van-field
     v-model="diet.dietContent"
     rows="3"
@@ -64,6 +66,7 @@ import { Diet, DietType, DIET_TYPE_COLUMNS } from "@/types/diet";
 import { combineTime } from "@/utils/tool";
 import { addDietAction } from "@/action/diet";
 import { HttpMessage } from "@/types";
+import { watch } from "vue";
 
 export default defineComponent({
   setup() {
@@ -80,8 +83,24 @@ export default defineComponent({
         dietTime: combineTime(route.params.date as string, "00:00"),
         dietType: DietType.SPECIAL_MILK,
         pheValue: 0,
+        specialMilk: 0,
+        breastMilk: 0,
       };
     });
+
+    watch(
+      () => diet.value.breastMilk,
+      () => {
+        diet.value.pheValue = +(+diet.value.breastMilk * 0.36).toFixed(2);
+      },
+    );
+
+    watch(
+      () => diet.value.specialMilk,
+      () => {
+        diet.value.pheValue = 0;
+      },
+    );
 
     const onClickLeft = () => {
       router.push("/main/density/displayDiet");
