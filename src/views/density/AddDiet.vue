@@ -19,11 +19,10 @@
   />
   <van-popup v-model:show="showDietTimePicker" overlay="true" position="bottom">
     <van-datetime-picker
-      v-model="currentDate"
       type="time"
       title="选择时间"
       @cancle="showDietTimePicker = false"
-      @confirm="setDietTime(currentDate)"
+      @confirm="setDietTime"
     />
   </van-popup>
   <van-field
@@ -58,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from "@vue/runtime-core";
+import { defineComponent, ref, onMounted } from "@vue/runtime-core";
 import { Notify } from "vant";
 import { useRoute, useRouter } from "vue-router";
 import { Diet, DietType, DIET_TYPE_COLUMNS } from "@/types/diet";
@@ -75,26 +74,20 @@ export default defineComponent({
     const diet = ref<Diet>({} as Diet);
     const dietTypeColumns = DIET_TYPE_COLUMNS;
 
-    watch(
-      () => route.params.date,
-      () => {
-        diet.value = {
-          dietContent: "",
-          dietTime: combineTime(route.params.date as string, "00:00"),
-          dietType: DietType.SPECIAL_MILK,
-          pheValue: 0,
-        };
-      },
-      {
-        immediate: true,
-      },
-    );
+    onMounted(() => {
+      diet.value = {
+        dietContent: "",
+        dietTime: combineTime(route.params.date as string, "00:00"),
+        dietType: DietType.SPECIAL_MILK,
+        pheValue: 0,
+      };
+    });
 
     const onClickLeft = () => {
       router.push("/main/density/displayDiet");
     };
 
-    const onClickRight = () => () => {
+    const onClickRight = () => {
       router.push("/main/density");
     };
 

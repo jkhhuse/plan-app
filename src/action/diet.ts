@@ -43,9 +43,9 @@ export const deleteDietAction = (dietId: string): Observable<HttpMessage<string>
  * @param date 指定日期
  * @returns
  */
-export const findDietByDateAction = (date: string, diet: Diet): Observable<HttpMessage<string>> => {
+export const findDietByDateAction = (date: string): Observable<HttpMessage<Diet[]>> => {
   const url = PLAN_SERVER + `diet/list/${date}`;
-  return http.get<HttpMessage<string>>(url).pipe(
+  return http.get<HttpMessage<Diet[]>>(url).pipe(
     retryBackoff({
       maxRetries: 0,
       initialInterval: 4000,

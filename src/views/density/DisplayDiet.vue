@@ -12,6 +12,7 @@
     title="选择记录日期"
     :poppable="false"
     :show-confirm="false"
+    :min-date="new Date(1990, 0, 1)"
     @select="onSelectDate"
     :style="{ height: '310px' }"
     color="rgb(110, 231, 183)"
@@ -21,45 +22,51 @@
     <div>当日特奶量: xxx ml</div>
   </div>
   <van-steps direction="vertical" @click-step="clickStep" :active="0">
-    <van-step>
-      <h3>摄入苯量: 400</h3>
-      <p>2016-07-12 12:40</p>
-    </van-step>
-    <van-step>
-      <h3>摄入苯量: 400</h3>
-      <p>2016-07-11 10:00</p>
-    </van-step>
-    <van-step>
-      <h3>摄入苯量: 400</h3>
-      <p>2016-07-10 09:30</p>
+    <van-step v-for="item in dietList" :key="item.uuid">
+      <h3>{{ item.dietTime }}</h3>
+      <p>{{ DIET_TYPE_COLUMNS[item.dietType] }} 摄入苯量: {{ item.pheValue }}</p>
+      <p>2016-07-12 12:40 摄入苯量: {{ item.dietContent }}</p>
     </van-step>
   </van-steps>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from "@vue/runtime-core";
-import { Profile } from "@/types/profile";
+import { defineComponent, ref, watch } from "@vue/runtime-core";
+import { Diet } from "@/types/diet";
 import { HttpMessage } from "@/types/index";
-import { getProfile } from "@/action/profile";
 import { useRouter } from "vue-router";
 import { formatDate } from "@/utils/tool";
+import { findDietByDateAction } from "@/action/diet";
+import { DIET_TYPE_COLUMNS } from "@/types/diet";
 
 export default defineComponent({
   setup() {
     const router = useRouter();
-    const profile = ref<Profile>({
-      name: "",
-      bornTime: "",
-      origin: 0,
-      createTime: "",
-      addr: "",
-      email: "",
-      passwd: "",
-    });
     const selectedTime = ref<string>(formatDate(new Date()));
+    const dietList = ref<Diet[]>([]);
+
+    const refreshDietList = (dateTime: string) => {
+      findDietByDateAction(dateTime).subscribe((res: HttpMessage<Diet[]>) => {
+        if (res.code === "200") {
+          dietList.value = res.data;
+        }
+      });
+    };
 
     const onSelectDate = (date: Date) => {
       selectedTime.value = formatDate(date);
+    };
+
+    watch(
+      () => selectedTime.value,
+      () => {
+        // 更新 list 数据
+        refreshDietList(selectedTime.value);
+      },
+    );
+
+    const clickStep = () => {
+      alert();
     };
 
     const onClickLeft = () => {
@@ -70,19 +77,10 @@ export default defineComponent({
       router.push(`/main/density/addDiet/${selectedTime.value}`);
     };
 
-    onMounted(() => {
-      getProfile().subscribe((res: HttpMessage<Profile>) => {
-        profile.value = res.data;
-        console.log(res.data);
-      });
-    });
-
-    const clickStep = () => {
-      alert();
-    };
-
     return {
       selectedTime,
+      dietList,
+      DIET_TYPE_COLUMNS,
       onClickLeft,
       onClickRight,
       onSelectDate,
