@@ -1,6 +1,6 @@
 <template>
   <van-nav-bar
-    :title="route.params.date + ' 饮食'"
+    :title="title"
     left-text="返回"
     right-text="回到首页"
     left-arrow
@@ -59,87 +59,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from "@vue/runtime-core";
-import { Notify } from "vant";
+import { defineComponent } from "@vue/runtime-core";
 import { useRoute, useRouter } from "vue-router";
-import { Diet, DietType, DIET_TYPE_COLUMNS } from "@/types/diet";
-import { combineTime } from "@/utils/tool";
-import { addDietAction } from "@/action/diet";
-import { HttpMessage } from "@/types";
-import { watch } from "vue";
+import useDiet from "./hooks/useDiet";
 
 export default defineComponent({
   setup() {
     const router = useRouter();
     const route = useRoute();
-    const showDietTimePicker = ref<boolean>(false);
-    const showDietTypePicker = ref<boolean>(false);
-    const diet = ref<Diet>({} as Diet);
-    const dietTypeColumns = DIET_TYPE_COLUMNS;
 
-    onMounted(() => {
-      diet.value = {
-        dietContent: "",
-        dietTime: combineTime(route.params.date as string, "00:00"),
-        dietType: DietType.SPECIAL_MILK,
-        pheValue: 0,
-        specialMilk: 0,
-        breastMilk: 0,
-      };
-    });
-
-    watch(
-      () => diet.value.breastMilk,
-      () => {
-        diet.value.pheValue = +(+diet.value.breastMilk * 0.36).toFixed(2);
-      },
-    );
-
-    watch(
-      () => diet.value.specialMilk,
-      () => {
-        diet.value.pheValue = 0;
-      },
-    );
-
-    const onClickLeft = () => {
-      router.push("/main/density/displayDiet");
-    };
-
-    const onClickRight = () => {
-      router.push("/main/density");
-    };
-
-    const showDietTimePopup = () => {
-      showDietTimePicker.value = true;
-    };
-
-    const showDietTypePopup = () => {
-      showDietTypePicker.value = true;
-    };
-
-    const setDietTime = (currentTime: string) => {
-      diet.value.dietTime = combineTime(diet.value.dietTime, currentTime);
-      showDietTimePicker.value = false;
-    };
-
-    const setDietType = (type: string) => {
-      diet.value.dietType = dietTypeColumns.indexOf(type);
-      showDietTypePicker.value = false;
-    };
-
-    const saveDiet = () => {
-      addDietAction(diet.value).subscribe((res: HttpMessage<string>) => {
-        if (res.code === "200") {
-          Notify({ type: "success", message: "添加成功" });
-        } else {
-          Notify({ type: "warning", message: "添加失败" });
-        }
-      });
-    };
+    const {
+      title,
+      diet,
+      dietTypeColumns,
+      showDietTimePicker,
+      showDietTypePicker,
+      onClickLeft,
+      onClickRight,
+      showDietTimePopup,
+      showDietTypePopup,
+      setDietTime,
+      setDietType,
+      saveDiet,
+    } = useDiet(route, router);
 
     return {
-      route,
+      title,
       diet,
       dietTypeColumns,
       showDietTimePicker,

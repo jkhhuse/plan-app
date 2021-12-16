@@ -24,13 +24,6 @@ const routes = [
         },
       },
       {
-        path: "/main/density/displayDiet",
-        name: "DisplayDiet",
-        components: {
-          "main-container": () => import("@/views/density/DisplayDiet.vue"),
-        },
-      },
-      {
         path: "/main/density/addDensity",
         name: "AddDensity",
         components: {
@@ -49,6 +42,20 @@ const routes = [
         name: "addDiet",
         components: {
           "main-container": () => import("@/views/density/AddDiet.vue"),
+        },
+      },
+      {
+        path: "/main/density/editDiet/:dietId/:date",
+        name: "EditDiet",
+        components: {
+          "main-container": () => import("@/views/density/AddDiet.vue"),
+        },
+      },
+      {
+        path: "/main/density/displayDiet",
+        name: "DisplayDiet",
+        components: {
+          "main-container": () => import("@/views/density/DisplayDiet.vue"),
         },
       },
       {

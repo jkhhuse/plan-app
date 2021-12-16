@@ -21,8 +21,8 @@
     <div>当日苯摄入量: xxx 单位</div>
     <div>当日特奶量: xxx ml</div>
   </div>
-  <van-steps direction="vertical" @click-step="clickStep" :active="0">
-    <van-step v-for="item in dietList" :key="item.uuid">
+  <van-steps direction="vertical" :active="0">
+    <van-step v-for="item in dietList" :key="item.uuid" @click="clickStep(item)">
       <h3>{{ item.dietTime }}</h3>
       <p>{{ DIET_TYPE_COLUMNS[item.dietType] }} 摄入苯量: {{ item.pheValue }}</p>
       <p>2016-07-12 12:40 摄入苯量: {{ item.dietContent }}</p>
@@ -68,8 +68,8 @@ export default defineComponent({
       },
     );
 
-    const clickStep = () => {
-      alert();
+    const clickStep = (diet: Diet) => {
+      router.push(`/main/density/editDiet/${diet.uuid}/${diet.dietTime}`);
     };
 
     const onClickLeft = () => {

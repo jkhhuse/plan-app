@@ -69,3 +69,18 @@ export const updateDietAction = (dietId: string, diet: Diet): Observable<HttpMes
     catchError(handleError),
   );
 };
+
+/**
+ * 通过 dietId 获得数据信息
+ * @param dietId uuid
+ * @returns Diet
+ */
+export const getDietAction = (dietId: string): Observable<HttpMessage<Diet>> => {
+  const url = PLAN_SERVER + `diet/findDiet/${dietId}`;
+  return http.get<HttpMessage<Diet>>(url).pipe(
+    retryBackoff({
+      initialInterval: 4000,
+    }),
+    catchError(handleError),
+  );
+};
