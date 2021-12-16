@@ -11,7 +11,7 @@ import { handleError } from "@/action/common/handle";
  *
  * @returns HttpMessage<Profile>
  */
-export const login = (body: LoginInfo): Observable<HttpMessage<CurrentUserType>> => {
+export const loginAction = (body: LoginInfo): Observable<HttpMessage<CurrentUserType>> => {
   const url = PLAN_SERVER + `auth/authenticate`;
   return http.post<HttpMessage<CurrentUserType>>(url, body).pipe(
     retryBackoff({

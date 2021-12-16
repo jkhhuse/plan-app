@@ -18,14 +18,21 @@
     color="rgb(110, 231, 183)"
   />
   <div class="text-sm text-left pt-2 pb-2 pl-2 bg-white mt-2 mb-2">
-    <div>当日苯摄入量: xxx 单位</div>
-    <div>当日特奶量: xxx ml</div>
+    <div>当日总苯摄入量: {{ specialMilkTotal }} mg</div>
+    <div v-if="breastMilkTotal">当日总母乳量: {{ breastMilkTotal }} ml</div>
+    <div>当日总特奶量: {{ specialMilkTotal }} ml</div>
   </div>
   <van-steps direction="vertical" :active="0">
-    <van-step v-for="item in dietList" :key="item.uuid" @click="clickStep(item)">
+    <van-step v-for="item in dietList" :key="item.uuid" @click="clickStep(item)" class="hover:text-green-500">
       <h3>{{ item.dietTime }}</h3>
-      <p>{{ DIET_TYPE_COLUMNS[item.dietType] }} 摄入苯量: {{ item.pheValue }}</p>
-      <p>2016-07-12 12:40 摄入苯量: {{ item.dietContent }}</p>
+      <p v-if="item.dietType === 0">
+        {{ DIET_TYPE_COLUMNS[item.dietType] }} 摄入量: {{ item.specialMilk }} ml
+      </p>
+      <p v-else-if="item.dietType === 1">
+        {{ DIET_TYPE_COLUMNS[item.dietType] }} 摄入量: {{ item.breastMilk }} ml
+      </p>
+      <p v-else>{{ DIET_TYPE_COLUMNS[item.dietType] }}</p>
+      <p>摄入苯量: {{ item.dietContent }}</p>
     </van-step>
   </van-steps>
 </template>
@@ -44,10 +51,28 @@ export default defineComponent({
     const router = useRouter();
     const selectedTime = ref<string>(formatDate(new Date()));
     const dietList = ref<Diet[]>([]);
+    const specialMilkTotal = ref<number>(0);
+    const breastMilkTotal = ref<number>(0);
+    const pheValueTotal = ref<number>(0);
+
+    const computeTotalData = (dietList: Diet[]): void => {
+      specialMilkTotal.value = 0;
+      breastMilkTotal.value = 0;
+      dietList.map((diet: Diet) => {
+        if (diet.specialMilk) {
+          specialMilkTotal.value = specialMilkTotal.value + diet.specialMilk;
+        }
+        if (diet.breastMilk) {
+          breastMilkTotal.value = breastMilkTotal.value + diet.breastMilk;
+        }
+        pheValueTotal.value = pheValueTotal.value + diet.pheValue;
+      });
+    };
 
     const refreshDietList = (dateTime: string) => {
       findDietByDateAction(dateTime).subscribe((res: HttpMessage<Diet[]>) => {
         if (res.code === "200") {
+          computeTotalData(res.data);
           dietList.value = res.data;
         }
       });
@@ -84,6 +109,9 @@ export default defineComponent({
       selectedTime,
       dietList,
       DIET_TYPE_COLUMNS,
+      specialMilkTotal,
+      breastMilkTotal,
+      pheValueTotal,
       onClickLeft,
       onClickRight,
       onSelectDate,

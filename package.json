@@ -21,6 +21,7 @@
     "backoff-rxjs": "^6.5.7",
     "core-js": "^3.6.5",
     "crypto-js": "^4.1.1",
+    "dayjs": "^1.10.7",
     "less-loader": "^6.2.0",
     "postcss": "7",
     "postcss-px-to-viewport": "^1.1.1",

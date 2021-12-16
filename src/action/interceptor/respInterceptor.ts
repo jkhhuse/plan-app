@@ -1,9 +1,17 @@
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpResponse, HttpEvent } from "@cmss/http-client-rxjs";
+import {
+  HttpInterceptor,
+  HttpRequest,
+  HttpHandler,
+  HttpResponse,
+  HttpEvent,
+  HttpErrorResponse,
+} from "@cmss/http-client-rxjs";
 import * as R from "ramda";
-import { map, finalize, tap } from "rxjs/operators";
+import { tap, finalize, map } from "rxjs/operators";
 import { Observable } from "rxjs";
 import { HttpMessage } from "@/types";
 import { authUserInfo } from "@/utils";
+import { useRouter } from "vue-router";
 
 export class RespInterceptor implements HttpInterceptor {
   private resolveReferences = (event: HttpResponse<HttpMessage<any>>): HttpMessage<any> | null | any => {
@@ -39,28 +47,11 @@ export class RespInterceptor implements HttpInterceptor {
      * 默认数据格式:
      * {
      *   meta: {
-     *     code: 2xx,
+     *     code: "2xx",
      *     message: "xxx"
      *   },
      *   data: xxx
      * }
-     *
-     * Op 数据格式:
-     * {
-     *   state： 2xx,
-     *   body: {}
-     * }
-     *
-     * ServerApi 数据格式:
-     * {
-     *   id: -1,
-     *   code: 0,
-     *   data: {},
-     *   message: "xxx",
-     *   state: "COMPLETE"
-     * }
-     *
-     * json 数据
      */
     const isStandardType = R.has("meta", resBody) && R.hasPath(["meta", "code"], resBody);
     const isOpType = R.has("body", resBody) && R.has("state", resBody);
@@ -103,6 +94,7 @@ export class RespInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const currentUser = authUserInfo.getCurrentUserValue();
+    const router = useRouter();
 
     const baseHeader = req.headers
       .set("X-Requested-With", "XMLHttpRequest")
@@ -122,26 +114,33 @@ export class RespInterceptor implements HttpInterceptor {
     const started = Date.now();
     let ok: string;
 
-    return next.handle(authReq as any).pipe(
+    return next.handle(authReq).pipe(
+      // 对不合规的数据进行转换
       map(event => {
         if (event instanceof HttpResponse) {
           event = event.clone({ body: this.resolveReferences(event) });
         }
         return event;
       }),
+      // 对特殊请求进行处理，例如 401 未授权的错误
       tap(
-        // 当有返回值的时候，判断为请求成功
-        event => (ok = event instanceof HttpResponse ? "succeeded" : ""),
-        // 捕捉错误
-        error => () => {
-          console.log("failed");
+        () => {
+          console.log();
+        },
+        (err: any) => {
+          if (err instanceof HttpErrorResponse) {
+            if (err.status !== 401) {
+              return;
+            }
+            router.push("/login");
+          }
         },
       ),
       finalize(() => {
         // 打印日志
         const elapsed = Date.now() - started;
         const msg = `${req.method} "${req.urlWithParams}"
-             ${ok} in ${elapsed} ms.`;
+               ${ok} in ${elapsed} ms.`;
         console.log(msg);
       }),
     );

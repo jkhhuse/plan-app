@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from "@vue/runtime-core";
-import { login } from "@/action/auth";
+import { loginAction } from "@/action/auth";
 import { CurrentUserType, HttpMessage } from "@/types/index";
 import route from "@/router";
 import { authUserInfo } from "@/utils";
@@ -40,21 +40,26 @@ export default defineComponent({
     const signIn = () => {
       loading.value = true;
       // 获得 token
-      login({
+      loginAction({
         username: username.value,
         passwd: passwd.value,
-      }).subscribe((res: HttpMessage<CurrentUserType>) => {
-        if (res.code === "200") {
+      }).subscribe(
+        (res: HttpMessage<CurrentUserType>) => {
+          if (res.code === "200") {
+            loading.value = false;
+            authUserInfo.setCurrentUserValue({
+              token: res.data.token,
+              userId: res.data.userId,
+            });
+            route.push("/main/profile");
+          } else {
+            loading.value = false;
+          }
+        },
+        () => {
           loading.value = false;
-          authUserInfo.setCurrentUserValue({
-            token: res.data.token,
-            userId: res.data.userId,
-          });
-          route.push("/main/profile");
-        } else {
-          loading.value = false;
-        }
-      });
+        },
+      );
     };
 
     return {

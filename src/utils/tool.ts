@@ -1,11 +1,12 @@
+import dayjs from "dayjs";
+
 /**
  * 转换为 yyyy-MM-dd 时间格式
  * @param date Date
  * @returns yyyy-MM-dd
  */
 const formatDate = (date: Date): string => {
-  const month = +date.getMonth() + 1;
-  return date.getFullYear() + "-" + month + "-" + date.getDate();
+  return dayjs(date).format("YYYY-MM-DD").toString();
 };
 
 /**
@@ -14,10 +15,7 @@ const formatDate = (date: Date): string => {
  * @returns yyyy-MM-dd hh:mm
  */
 const formatDateTime = (date: Date): string => {
-  const month = +date.getMonth() + 1;
-  return (
-    date.getFullYear() + "-" + month + "-" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes
-  );
+  return dayjs(date).format("YYYY-MM-DD HH:mm").toString();
 };
 
 /**

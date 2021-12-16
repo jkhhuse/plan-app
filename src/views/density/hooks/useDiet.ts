@@ -80,6 +80,7 @@ export default function useDiet(route: RouteLocationNormalizedLoaded, router: Ro
     addDietAction(diet.value).subscribe((res: HttpMessage<string>) => {
       if (res.code === "200") {
         Notify({ type: "success", message: "添加成功" });
+        router.push("/main/density/displayDiet");
       } else {
         Notify({ type: "warning", message: "添加失败" });
       }
