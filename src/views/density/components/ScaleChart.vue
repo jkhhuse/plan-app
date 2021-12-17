@@ -14,28 +14,28 @@ export default defineComponent({
       const data = [
         {
           name: "其他消费",
-          y: 6371664,
-          const: "const",
+          value: 6371664,
+          const: "a",
         },
         {
-          name: "生活用品",
-          y: 7216301,
-          const: "const",
+          name: "a",
+          value: 7216301,
+          const: "a",
         },
         {
           name: "通讯物流",
-          y: 1500621,
-          const: "const",
+          value: 1500621,
+          const: "a",
         },
         {
           name: "交通出行",
-          y: 586622,
-          const: "const",
+          value: 586622,
+          const: "a",
         },
         {
           name: "饮食",
-          y: 900000,
-          const: "const",
+          value: 900000,
+          const: "a",
         },
       ];
 
@@ -68,7 +68,7 @@ export default defineComponent({
 
       chart
         .interval()
-        .position("const*y")
+        .position("const*value")
         .color("name", ["#1890FF", "#13C2C2", "#2FC25B", "#FACC14", "#F04864"])
         .adjust("stack");
       chart.render();

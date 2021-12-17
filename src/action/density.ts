@@ -5,7 +5,7 @@ import { http } from "@/action";
 import { PLAN_SERVER } from "@/constants/common";
 import { retryBackoff } from "backoff-rxjs";
 import { handleError } from "@/action/common/handle";
-import { Density, DensityList } from "@/types/density";
+import { DensityList } from "@/types/density";
 
 /**
  * 获得血值的列表
@@ -127,12 +127,11 @@ export const getDensityRangeAction = (
 };
 
 /**
- * 获得最近 N 次血值记录
- * @param count 最近 n 次
+ * 获得血值记录比例
  * @returns DensityList
  */
-export const getLatestDensityAction = (count: number): Observable<HttpMessage<DensityList>> => {
-  const url = PLAN_SERVER + "density/dimension/" + count;
+export const getLatestDensityAction = (): Observable<HttpMessage<DensityList>> => {
+  const url = PLAN_SERVER + "density/dimension/scale";
   return http.get<HttpMessage<DensityList>>(url).pipe(
     retryBackoff({
       initialInterval: 4000,

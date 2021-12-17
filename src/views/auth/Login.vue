@@ -51,7 +51,7 @@ export default defineComponent({
               token: res.data.token,
               userId: res.data.userId,
             });
-            route.push("/main/profile");
+            route.push("/main/density");
           } else {
             loading.value = false;
           }
