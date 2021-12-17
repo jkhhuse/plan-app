@@ -5,7 +5,7 @@ import { http } from "@/action";
 import { PLAN_SERVER } from "@/constants/common";
 import { retryBackoff } from "backoff-rxjs";
 import { handleError } from "@/action/common/handle";
-import { DensityList } from "@/types/density";
+import { DensityList, PieType } from "@/types/density";
 
 /**
  * 获得血值的列表
@@ -127,12 +127,27 @@ export const getDensityRangeAction = (
 };
 
 /**
- * 获得血值记录比例
+ * 获得最近 N 次记录
+ * @param count TopN
  * @returns DensityList
  */
-export const getLatestDensityAction = (): Observable<HttpMessage<DensityList>> => {
-  const url = PLAN_SERVER + "density/dimension/scale";
+export const getLatestDensityAction = (count: number): Observable<HttpMessage<DensityList>> => {
+  const url = PLAN_SERVER + `density/dimension/${count}`;
   return http.get<HttpMessage<DensityList>>(url).pipe(
+    retryBackoff({
+      initialInterval: 4000,
+    }),
+    catchError(handleError),
+  );
+};
+
+/**
+ * 获得血值比例
+ * @returns DensityList
+ */
+export const getScaleDensityAction = (): Observable<HttpMessage<PieType[]>> => {
+  const url = PLAN_SERVER + "density/dimension/scale";
+  return http.get<HttpMessage<PieType[]>>(url).pipe(
     retryBackoff({
       initialInterval: 4000,
     }),

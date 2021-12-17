@@ -9,6 +9,7 @@ const routes = [
     path: "/main",
     component: () => import("@/components/container/main-layout/MainPageLayout.vue"),
     children: [
+      /** Density */
       {
         path: "/main/density",
         name: "Density",
@@ -58,6 +59,23 @@ const routes = [
           "main-container": () => import("@/views/density/DisplayDiet.vue"),
         },
       },
+      /** Food */
+      {
+        path: "/main/food",
+        name: "Food",
+        components: {
+          "main-container": () => import("@/views/food/Food.vue"),
+        },
+      },
+      /** CookBook */
+      {
+        path: "/main/cookbook",
+        name: "Cookbook",
+        components: {
+          "main-container": () => import("@/views/cookbook/Cookbook.vue"),
+        },
+      },
+      /** profile */
       {
         path: "/main/profile",
         name: "Profile",

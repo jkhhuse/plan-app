@@ -19,6 +19,26 @@ const formatDateTime = (date: Date): string => {
 };
 
 /**
+ * 转换为 yyyy-MM-dd hh:mm 时间格式
+ * @param date yyyy-MM-dd hh:mm:ss
+ * @returns yyyy-MM-dd hh:mm
+ */
+const formatExcludeMinute = (dateTime: string): string => {
+  const time = dayjs(dateTime).format("YYYY-MM-DD HH:mm").toString();
+  return time;
+};
+
+/**
+ * 添加分钟与秒
+ * @param date yyyy-MM-dd
+ * @param time hh:mm
+ * @returns yyyy-MM-dd hh:mm
+ */
+const addMinAndSecToTime = (date: string): string => {
+  return dayjs(date).format("YYYY-MM-DD HH:mm").toString();
+};
+
+/**
  * 把 date + time 进行组合
  * @param date yyyy-MM-dd
  * @param time hh:mm
@@ -28,4 +48,4 @@ const combineTime = (date: string, time: string): string => {
   return date.split(" ")[0] + " " + time;
 };
 
-export { formatDate, formatDateTime, combineTime };
+export { formatDate, formatDateTime, combineTime, addMinAndSecToTime, formatExcludeMinute };

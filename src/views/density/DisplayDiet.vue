@@ -17,10 +17,10 @@
     :style="{ height: '310px' }"
     color="rgb(110, 231, 183)"
   />
-  <div class="text-sm text-left pt-2 pb-2 pl-2 bg-white mt-2 mb-2">
-    <div>当日总苯摄入量: {{ specialMilkTotal }} mg</div>
+  <div class="text-xs text-left pt-2 pb-2 pl-2 bg-gray-100 mt-2 mb-2 text-gray-600 tracking-wide leading-5">
+    <div>当日苯摄入量: {{ pheValueTotal }} mg</div>
     <div v-if="breastMilkTotal">当日总母乳量: {{ breastMilkTotal }} ml</div>
-    <div>当日总特奶量: {{ specialMilkTotal }} ml</div>
+    <div>当日特奶量: {{ specialMilkTotal }} ml</div>
   </div>
   <van-steps direction="vertical" :active="0">
     <van-step v-for="item in dietList" :key="item.uuid" @click="clickStep(item)" class="hover:text-green-500">
@@ -42,7 +42,7 @@ import { defineComponent, ref, watch } from "@vue/runtime-core";
 import { Diet } from "@/types/diet";
 import { HttpMessage } from "@/types/index";
 import { useRouter } from "vue-router";
-import { formatDate } from "@/utils/tool";
+import { formatDate, formatExcludeMinute } from "@/utils/tool";
 import { findDietByDateAction } from "@/action/diet";
 import { DIET_TYPE_COLUMNS } from "@/types/diet";
 
@@ -58,6 +58,7 @@ export default defineComponent({
     const computeTotalData = (dietList: Diet[]): void => {
       specialMilkTotal.value = 0;
       breastMilkTotal.value = 0;
+      pheValueTotal.value = 0;
       dietList.map((diet: Diet) => {
         if (diet.specialMilk) {
           specialMilkTotal.value = specialMilkTotal.value + diet.specialMilk;
@@ -94,7 +95,8 @@ export default defineComponent({
     );
 
     const clickStep = (diet: Diet) => {
-      router.push(`/main/density/editDiet/${diet.uuid}/${diet.dietTime}`);
+      const time = formatExcludeMinute(diet.dietTime);
+      router.push(`/main/density/editDiet/${diet.uuid}/${time}`);
     };
 
     const onClickLeft = () => {

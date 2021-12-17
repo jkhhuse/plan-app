@@ -2,7 +2,7 @@
   <div class="flex flex-row justify-between mt-2 mr-2 ml-2">
     <div class="text-left">
       <div class="text-sm">你好, xxx</div>
-      <div class="text-base mt-4 tracking-wide text-dark-title font-semibold">健康管理档案</div>
+      <div class="text-base mt-4 tracking-wide text-dark-main font-semibold">健康管理档案</div>
     </div>
     <div>头像</div>
   </div>

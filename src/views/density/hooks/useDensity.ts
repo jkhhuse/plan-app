@@ -12,6 +12,7 @@ export default function useDensity(): any {
   const size = ref<number>(20);
 
   const fetchDensityList = (limit: number, size: number) => {
+    densityList.value = [];
     getAllDensityListAction().subscribe((res: HttpMessage<DensityList>) => {
       if (res.data.length > 0) {
         densityList.value = densityList.value.concat(res.data);
@@ -38,6 +39,8 @@ export default function useDensity(): any {
     loadFinished,
     finishedText,
     loading,
+    limit,
     onLoad,
+    fetchDensityList,
   };
 }

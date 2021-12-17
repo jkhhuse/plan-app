@@ -8,7 +8,13 @@
     @click-right="onClickRight"
   />
   <div class="bg-white p-2">
-    <van-list v-model="loading" :finished="loadFinished" finished-text="没有更多了" @load="onLoad">
+    <van-list
+      v-if="densityList.length > 0"
+      v-model="loading"
+      :finished="loadFinished"
+      finished-text="没有更多了"
+      @load="onLoad"
+    >
       <van-swipe-cell v-for="item in densityList" :key="item.measureTime">
         <van-cell :title="item.measureTime" :title-style="'text-align: left;'" :value="item.measureValue" />
         <template #right>
@@ -17,6 +23,7 @@
         </template>
       </van-swipe-cell>
     </van-list>
+    <van-empty v-else description="请添加血值记录" />
   </div>
 </template>
 
@@ -32,7 +39,7 @@ import useDensity from "./hooks/useDensity";
 export default defineComponent({
   setup() {
     const router = useRouter();
-    const { densityList, loadFinished, finishedText, loading, onLoad } = useDensity();
+    const { densityList, loadFinished, finishedText, loading, onLoad, fetchDensityList } = useDensity();
 
     const onClickLeft = () => {
       router.push("/main/density");
@@ -51,6 +58,8 @@ export default defineComponent({
     const removeDensity = (density: Density) => {
       removeDensityAction(density.uuid as string).subscribe((res: HttpMessage<string>) => {
         if (res.code === "200") {
+          // 删除完刷新列表
+          fetchDensityList(1, 20);
           Notify({ type: "success", message: "删除成功" });
         } else {
           Notify({ type: "warning", message: "删除失败" });

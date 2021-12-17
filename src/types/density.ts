@@ -11,3 +11,12 @@ export interface ChartType {
   date: string;
   value: number;
 }
+
+export interface PieType {
+  name: string;
+  value: number;
+}
+
+export type PieTypeRender = PieType & {
+  const: string;
+};

@@ -1,7 +1,7 @@
 import { addDietAction, getDietAction } from "@/action/diet";
 import { HttpMessage } from "@/types";
 import { Diet, DietType, DIET_TYPE_COLUMNS } from "@/types/diet";
-import { combineTime } from "@/utils/tool";
+import { addMinAndSecToTime, combineTime, formatExcludeMinute } from "@/utils/tool";
 import { ref, watch } from "@vue/runtime-dom";
 import { Notify } from "vant";
 import { onMounted } from "vue";
@@ -20,14 +20,17 @@ export default function useDiet(route: RouteLocationNormalizedLoaded, router: Ro
       title.value = "更新饮食记录";
       getDietAction(route.params.dietId as string).subscribe((res: HttpMessage<Diet>) => {
         if (res.code === "200") {
-          diet.value = res.data;
+          diet.value = {
+            ...res.data,
+            dietTime: formatExcludeMinute(res.data.dietTime),
+          };
         }
       });
     } else {
       title.value = route.params.date + " 饮食";
       diet.value = {
         dietContent: "",
-        dietTime: combineTime(route.params.date as string, "00:00"),
+        dietTime: addMinAndSecToTime(route.params.date as string),
         dietType: DietType.SPECIAL_MILK,
         pheValue: 0,
         specialMilk: 0,

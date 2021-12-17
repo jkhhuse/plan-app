@@ -8,7 +8,7 @@
     </template>
   </van-nav-bar>
   <div class="w-32 p-4">
-    <img src="@/assets/logo.png" class="w-full object-fill object-center object-scale-down green" />
+    <!-- <img src="@/assets/logo.png" class="w-full object-fill object-center object-scale-down green" /> -->
   </div>
   <van-cell-group inset>
     <van-field v-model="profile.name" label="用户昵称" />
