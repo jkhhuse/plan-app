@@ -28,7 +28,7 @@
   <van-field
     readonly
     clickable
-    name="picker"
+    name="food-picker"
     label="食物种类"
     v-model="dietTypeColumns[diet.dietType]"
     placeholder="选择食物"
@@ -40,6 +40,24 @@
       :columns="dietTypeColumns"
       @cancel="showDietTypePicker = false"
       @confirm="setDietType"
+    />
+  </van-popup>
+  <van-field
+    v-if="diet.dietType === 0"
+    readonly
+    clickable
+    name="milk-picker"
+    label="特奶品牌"
+    v-model="smilkTypeColumns[diet.smilkType]"
+    placeholder="选择食物"
+    @click="showSmilkTypePicker = true"
+  />
+  <van-popup v-model:show="showSmilkTypePicker" round position="bottom">
+    <van-picker
+      show-toolbar
+      :columns="smilkTypeColumns"
+      @cancel="showSmilkTypePicker = false"
+      @confirm="setSmilkType"
     />
   </van-popup>
   <van-field v-if="diet.dietType === 0" v-model="diet.specialMilk" type="number" label="特奶量(ml)" />
@@ -72,14 +90,15 @@ export default defineComponent({
       title,
       diet,
       dietTypeColumns,
+      smilkTypeColumns,
       showDietTimePicker,
       showDietTypePicker,
+      showSmilkTypePicker,
       onClickLeft,
       onClickRight,
-      showDietTimePopup,
-      showDietTypePopup,
       setDietTime,
       setDietType,
+      setSmilkType,
       saveDiet,
     } = useDiet(route, router);
 
@@ -87,14 +106,15 @@ export default defineComponent({
       title,
       diet,
       dietTypeColumns,
+      smilkTypeColumns,
       showDietTimePicker,
       showDietTypePicker,
+      showSmilkTypePicker,
       onClickLeft,
       onClickRight,
-      showDietTimePopup,
-      showDietTypePopup,
       setDietTime,
       setDietType,
+      setSmilkType,
       saveDiet,
     };
   },

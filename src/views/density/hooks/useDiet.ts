@@ -1,6 +1,6 @@
 import { addDietAction, getDietAction } from "@/action/diet";
 import { HttpMessage } from "@/types";
-import { Diet, DietType, DIET_TYPE_COLUMNS } from "@/types/diet";
+import { Diet, DietType, DIET_TYPE_COLUMNS, SPECIAL_MILK_TYPE_COLUMNS } from "@/types/diet";
 import { addMinAndSecToTime, combineTime, formatExcludeMinute } from "@/utils/tool";
 import { ref, watch } from "@vue/runtime-dom";
 import { Notify } from "vant";
@@ -10,8 +10,10 @@ import { RouteLocationNormalizedLoaded, Router } from "vue-router";
 export default function useDiet(route: RouteLocationNormalizedLoaded, router: Router): any {
   const showDietTimePicker = ref<boolean>(false);
   const showDietTypePicker = ref<boolean>(false);
+  const showSmilkTypePicker = ref<boolean>(false);
   const diet = ref<Diet>({} as Diet);
   const dietTypeColumns = DIET_TYPE_COLUMNS;
+  const smilkTypeColumns = SPECIAL_MILK_TYPE_COLUMNS;
   const title = ref<string>("");
 
   onMounted(() => {
@@ -34,6 +36,7 @@ export default function useDiet(route: RouteLocationNormalizedLoaded, router: Ro
         dietType: DietType.SPECIAL_MILK,
         pheValue: 0,
         specialMilk: 0,
+        smilkType: 0,
         breastMilk: 0,
       };
     }
@@ -61,14 +64,6 @@ export default function useDiet(route: RouteLocationNormalizedLoaded, router: Ro
     router.push("/main/density");
   };
 
-  const showDietTimePopup = () => {
-    showDietTimePicker.value = true;
-  };
-
-  const showDietTypePopup = () => {
-    showDietTypePicker.value = true;
-  };
-
   const setDietTime = (currentTime: string) => {
     diet.value.dietTime = combineTime(diet.value.dietTime, currentTime);
     showDietTimePicker.value = false;
@@ -77,6 +72,11 @@ export default function useDiet(route: RouteLocationNormalizedLoaded, router: Ro
   const setDietType = (type: string) => {
     diet.value.dietType = dietTypeColumns.indexOf(type);
     showDietTypePicker.value = false;
+  };
+
+  const setSmilkType = (type: string) => {
+    diet.value.smilkType = smilkTypeColumns.indexOf(type);
+    showSmilkTypePicker.value = false;
   };
 
   const saveDiet = () => {
@@ -94,14 +94,15 @@ export default function useDiet(route: RouteLocationNormalizedLoaded, router: Ro
     title,
     diet,
     dietTypeColumns,
+    smilkTypeColumns,
     showDietTimePicker,
     showDietTypePicker,
+    showSmilkTypePicker,
     onClickLeft,
     onClickRight,
-    showDietTimePopup,
-    showDietTypePopup,
     setDietTime,
     setDietType,
     saveDiet,
+    setSmilkType,
   };
 }

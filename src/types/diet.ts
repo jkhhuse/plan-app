@@ -18,5 +18,13 @@ export interface Diet {
   dietType: DietType;
   pheValue: number;
   specialMilk: number /** 特奶 */;
+  smilkType: number /** 特奶品牌 */;
   breastMilk: number /** 母乳 */;
 }
+
+/** 特奶品牌 */
+export enum SpecialMilkType {
+  "periflex" = 0,
+}
+
+export const SPECIAL_MILK_TYPE_COLUMNS = ["纽贝瑞"];
