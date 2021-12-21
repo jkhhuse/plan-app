@@ -12,6 +12,7 @@ import F2 from "@antv/f2/lib/index-all";
 import { HttpMessage } from "@/types";
 import { PieType, PieTypeRender } from "@/types/density";
 import { getScaleDensityAction } from "@/action/density";
+import { nextTick } from "vue";
 
 export default defineComponent({
   setup() {
@@ -50,39 +51,41 @@ export default defineComponent({
       () => {
         nullValueCheck(data.value);
         if (!isNullData.value) {
-          const chart = new F2.Chart({
-            id: container.value,
-            height: 200,
-            pixelRatio: window.devicePixelRatio,
-          });
+          nextTick(() => {
+            const chart = new F2.Chart({
+              id: container.value,
+              height: 200,
+              pixelRatio: window.devicePixelRatio,
+            });
 
-          chart.source(data.value);
-          chart.coord("polar", {
-            transposed: true,
-            radius: 0.75,
-          });
-          chart.legend(false);
-          chart.axis(false);
-          chart.tooltip(false);
+            chart.source(data.value);
+            chart.coord("polar", {
+              transposed: true,
+              radius: 0.75,
+            });
+            chart.legend(false);
+            chart.axis(false);
+            chart.tooltip(false);
 
-          // 添加饼图文本
-          chart.pieLabel({
-            sidePadding: 10,
-            lineHeight: 16,
-            label1: function label1(data, color) {
-              return {
-                text: data.name,
-                fill: color,
-              };
-            },
-          });
+            // 添加饼图文本
+            chart.pieLabel({
+              sidePadding: 10,
+              lineHeight: 16,
+              label1: function label1(data, color) {
+                return {
+                  text: data.name,
+                  fill: color,
+                };
+              },
+            });
 
-          chart
-            .interval()
-            .position("const*value")
-            .color("name", ["#3B82F6", "#10B981", "#6366F1", "#F59E0B", "#DC2626"])
-            .adjust("stack");
-          chart.render();
+            chart
+              .interval()
+              .position("const*value")
+              .color("name", ["#3B82F6", "#10B981", "#6366F1", "#F59E0B", "#DC2626"])
+              .adjust("stack");
+            chart.render();
+          });
         }
       },
     );

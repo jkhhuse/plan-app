@@ -13,7 +13,6 @@
       v-model="loading"
       :finished="loadFinished"
       finished-text="没有更多了"
-      @load="onLoad"
     >
       <van-swipe-cell v-for="item in densityList" :key="item.measureTime">
         <van-cell :title="item.measureTime" :title-style="'text-align: left;'" :value="item.measureValue" />

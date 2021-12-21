@@ -32,6 +32,9 @@ export default function useDensity(): any {
     () => {
       fetchDensityList(limit.value, size.value);
     },
+    {
+      immediate: true,
+    },
   );
 
   return {

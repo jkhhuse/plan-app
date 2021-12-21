@@ -1,13 +1,13 @@
 <template>
-  <div v-if="!loading">
+  <div v-show="!loading">
     <canvas v-if="data.length" ref="cLine" />
     <van-empty v-else class="custom-image" description="请添加血值记录" />
   </div>
-  <van-loading v-else type="spinner" class="text-center" />
+  <van-loading v-show="loading" type="spinner" class="text-center" />
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, watch } from "@vue/runtime-core";
+import { defineComponent, ref, onMounted, watch, nextTick } from "@vue/runtime-core";
 import F2 from "@antv/f2/lib/index-all";
 import { getLatestDensityAction } from "@/action/density";
 import { HttpMessage } from "@/types/index";
@@ -39,46 +39,48 @@ export default defineComponent({
     watch(
       () => data.value,
       () => {
-        if (data.value.length) {
-          const chart = new F2.Chart({
-            id: cLine.value,
-            pixelRatio: window.devicePixelRatio,
-          });
+        if (data.value.length > 0) {
+          nextTick(() => {
+            const chart = new F2.Chart({
+              id: cLine.value,
+              pixelRatio: window.devicePixelRatio,
+            });
 
-          chart.source(data.value, {
-            value: {
-              tickCount: 5,
-              min: 0,
-            },
-            date: {
-              type: "timeCat",
-              range: [0, 1],
-              tickCount: 3,
-            },
+            chart.source(data.value, {
+              value: {
+                tickCount: 5,
+                min: 0,
+              },
+              date: {
+                type: "timeCat",
+                range: [0, 1],
+                tickCount: 3,
+              },
+            });
+            chart.tooltip({
+              custom: true,
+              showXTip: true,
+              showYTip: true,
+              snap: true,
+              crosshairsType: "xy",
+              crosshairsStyle: {
+                lineDash: [2],
+              },
+            });
+            chart.axis("date", {
+              label: function label(text, index, total) {
+                const textCfg = {} as any;
+                if (index === 0) {
+                  textCfg.textAlign = "left";
+                } else if (index === total - 1) {
+                  textCfg.textAlign = "right";
+                }
+                return textCfg;
+              },
+            });
+            chart.line().position("date*value");
+            chart.render();
           });
-          chart.tooltip({
-            custom: true,
-            showXTip: true,
-            showYTip: true,
-            snap: true,
-            crosshairsType: "xy",
-            crosshairsStyle: {
-              lineDash: [2],
-            },
-          });
-          chart.axis("date", {
-            label: function label(text, index, total) {
-              const textCfg = {} as any;
-              if (index === 0) {
-                textCfg.textAlign = "left";
-              } else if (index === total - 1) {
-                textCfg.textAlign = "right";
-              }
-              return textCfg;
-            },
-          });
-          chart.line().position("date*value");
-          chart.render();
         }
       },
     );

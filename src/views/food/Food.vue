@@ -7,7 +7,9 @@
       <van-icon name="bell" size="18" @click="onClickRight" />
     </template>
   </van-nav-bar>
-  <div>Food</div>
+  <div>
+    <van-search v-model="value" shape="round" background="#4fc08d" placeholder="请输入搜索关键词" />
+  </div>
 </template>
 <script lang="ts">
 import { defineComponent, SetupContext } from "@vue/runtime-core";
