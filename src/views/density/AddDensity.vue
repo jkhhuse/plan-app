@@ -18,7 +18,12 @@
       placeholder="点击选择日期"
       @click="showPicker = true"
     />
-    <van-calendar v-model:show="showPicker" @confirm="setDensityTime" color="rgb(110, 231, 183)" />
+    <van-calendar
+      v-model:show="showPicker"
+      :min-date="new Date(1990, 0, 1)"
+      @confirm="setDensityTime"
+      color="rgb(110, 231, 183)"
+    />
     <van-field v-model="density.measureValue" type="text" label="血值" />
     <div class="p-4">
       <van-button type="primary" block class="mt-2" @click="saveDensity">保存</van-button>

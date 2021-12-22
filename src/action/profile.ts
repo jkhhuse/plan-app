@@ -11,7 +11,7 @@ import { handleError } from "@/action/common/handle";
  *
  * @returns HttpMessage<Profile>
  */
-export const getProfile = (): Observable<HttpMessage<Profile>> => {
+export const getProfileAction = (): Observable<HttpMessage<Profile>> => {
   const url = PLAN_SERVER + `person/findUserInfo`;
   return http.get<HttpMessage<Profile>>(url).pipe(
     retryBackoff({

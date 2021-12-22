@@ -73,11 +73,14 @@
   />
   <div class="p-4">
     <van-button type="primary" block class="mt-2" @click="saveDiet">保存</van-button>
+    <van-button v-if="isEdit" type="danger" block class="mt-2" @click="removeDiet(diet.uuid)">
+      移除
+    </van-button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/runtime-core";
+import { computed, defineComponent } from "@vue/runtime-core";
 import { useRoute, useRouter } from "vue-router";
 import useDiet from "./hooks/useDiet";
 
@@ -85,6 +88,7 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const route = useRoute();
+    const isEdit = computed(() => route?.path?.includes("editDiet"));
 
     const {
       title,
@@ -100,9 +104,11 @@ export default defineComponent({
       setDietType,
       setSmilkType,
       saveDiet,
+      removeDiet,
     } = useDiet(route, router);
 
     return {
+      isEdit,
       title,
       diet,
       dietTypeColumns,
@@ -116,6 +122,7 @@ export default defineComponent({
       setDietType,
       setSmilkType,
       saveDiet,
+      removeDiet,
     };
   },
 });

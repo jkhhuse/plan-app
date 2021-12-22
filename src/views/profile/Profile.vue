@@ -51,7 +51,7 @@ import { Profile } from "@/types/profile";
 import { areaList } from "@vant/area-data";
 import { HttpMessage, VantAreaType } from "@/types/index";
 import * as crypto from "crypto-js";
-import { getProfile } from "@/action/profile";
+import { getProfileAction } from "@/action/profile";
 
 export default defineComponent({
   setup() {
@@ -90,9 +90,8 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      getProfile().subscribe((res: HttpMessage<Profile>) => {
+      getProfileAction().subscribe((res: HttpMessage<Profile>) => {
         profile.value = res.data;
-        console.log(res.data);
       });
     });
 

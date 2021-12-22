@@ -1,4 +1,4 @@
-import { addDietAction, getDietAction } from "@/action/diet";
+import { addDietAction, getDietAction, deleteDietAction } from "@/action/diet";
 import { HttpMessage } from "@/types";
 import { Diet, DietType, DIET_TYPE_COLUMNS, SPECIAL_MILK_TYPE_COLUMNS } from "@/types/diet";
 import { addMinAndSecToTime, combineTime, formatExcludeMinute } from "@/utils/tool";
@@ -90,6 +90,17 @@ export default function useDiet(route: RouteLocationNormalizedLoaded, router: Ro
     });
   };
 
+  const removeDiet = (dietId: string) => {
+    deleteDietAction(dietId).subscribe((res: HttpMessage<string>) => {
+      if (res.code === "200") {
+        Notify({ type: "success", message: "移除成功" });
+        router.push("/main/density/displayDiet");
+      } else {
+        Notify({ type: "warning", message: "移除失败" });
+      }
+    });
+  };
+
   return {
     title,
     diet,
@@ -102,7 +113,8 @@ export default function useDiet(route: RouteLocationNormalizedLoaded, router: Ro
     onClickRight,
     setDietTime,
     setDietType,
-    saveDiet,
     setSmilkType,
+    saveDiet,
+    removeDiet,
   };
 }

@@ -32,7 +32,7 @@
         {{ DIET_TYPE_COLUMNS[item.dietType] }} 摄入量: {{ item.breastMilk }} ml
       </p>
       <p v-else>{{ DIET_TYPE_COLUMNS[item.dietType] }}</p>
-      <p>摄入苯量: {{ item.dietContent }}</p>
+      <p>苯 摄入量: {{ item.pheValue }}</p>
     </van-step>
   </van-steps>
 </template>
@@ -45,6 +45,7 @@ import { useRouter } from "vue-router";
 import { formatDate, formatExcludeMinute } from "@/utils/tool";
 import { findDietByDateAction } from "@/action/diet";
 import { DIET_TYPE_COLUMNS } from "@/types/diet";
+import dayjs from "dayjs";
 
 export default defineComponent({
   setup() {
@@ -74,7 +75,9 @@ export default defineComponent({
       findDietByDateAction(dateTime).subscribe((res: HttpMessage<Diet[]>) => {
         if (res.code === "200") {
           computeTotalData(res.data);
-          dietList.value = res.data;
+          dietList.value = res.data.sort((a: Diet, b: Diet) => {
+            return dayjs(b.dietTime).unix() - dayjs(a.dietTime).unix();
+          });
         }
       });
     };

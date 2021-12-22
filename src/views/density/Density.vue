@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-row justify-between mt-2 mr-2 ml-2">
     <div class="text-left">
-      <div class="text-sm">你好, xxx</div>
+      <div class="text-sm">你好, {{ profile.name }}</div>
       <div class="text-base mt-4 tracking-wide text-dark-main font-semibold">健康管理档案</div>
     </div>
     <div>头像</div>
@@ -27,7 +27,7 @@
     </van-button>
   </div>
   <div class="text-left m-2 mt-4 bg-white p-2 rounded-md">
-    <div class="text-sm">血值情况监测</div>
+    <div class="text-sm">血值情况监测(10次)</div>
     <StatsChart />
   </div>
   <div class="text-left m-2 mt-4 bg-white p-2 rounded-md">
@@ -44,6 +44,7 @@ import { defineComponent } from "@vue/runtime-core";
 import StatsChart from "./components/StatsChart.vue";
 import ScaleChart from "./components/ScaleChart.vue";
 import { useRouter } from "vue-router";
+import useProfile from "@/views/profile/hooks/useProfile";
 
 export default defineComponent({
   components: {
@@ -52,6 +53,8 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter();
+
+    const { profile } = useProfile();
 
     const displayDensity = () => {
       router.push("/main/density/displayDensity");
@@ -62,6 +65,7 @@ export default defineComponent({
     };
 
     return {
+      profile,
       displayDensity,
       displayDiet,
     };

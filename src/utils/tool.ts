@@ -35,7 +35,8 @@ const formatExcludeMinute = (dateTime: string): string => {
  * @returns yyyy-MM-dd hh:mm
  */
 const addMinAndSecToTime = (date: string): string => {
-  return dayjs(date).format("YYYY-MM-DD HH:mm").toString();
+  const minAndSec = dayjs(new Date()).format(" HH:mm");
+  return date + minAndSec;
 };
 
 /**
