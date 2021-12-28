@@ -1,5 +1,5 @@
 <template>
-  <div v-show="!loading">
+  <div v-show="!loading" class="bg-blue-50 rounded mt-1">
     <canvas v-if="data.length" ref="cLine" />
     <van-empty v-else class="custom-image" description="请添加血值记录" />
   </div>
@@ -21,7 +21,7 @@ export default defineComponent({
 
     onMounted(() => {
       loading.value = true;
-      getLatestDensityAction(10).subscribe((res: HttpMessage<DensityList>) => {
+      getLatestDensityAction(30).subscribe((res: HttpMessage<DensityList>) => {
         loading.value = false;
         if (res.code === "200") {
           const temp: ChartType[] = [];
@@ -76,6 +76,25 @@ export default defineComponent({
                   textCfg.textAlign = "right";
                 }
                 return textCfg;
+              },
+            });
+            // 绘制 Guide.Line
+            chart.guide().line({
+              start: ["min", 2],
+              end: ["max", 2],
+              style: {
+                stroke: "#10B981",
+                lineWidth: 1,
+                lineCap: "round",
+              },
+            });
+            chart.guide().line({
+              start: ["min", 4],
+              end: ["max", 4],
+              style: {
+                stroke: "#d0502d",
+                lineWidth: 1,
+                lineCap: "round",
               },
             });
             chart.line().position("date*value");

@@ -26,16 +26,19 @@
       查看血值
     </van-button>
   </div>
-  <div class="text-left m-2 mt-4 bg-white p-2 rounded-md">
-    <div class="text-sm">血值情况监测(10次)</div>
+  <div class="text-left m-1 mt-4 bg-white pl-1 pr-1 rounded-md">
+    <div class="text-sm">血值情况监测(30次)</div>
     <StatsChart />
   </div>
-  <div class="text-left m-2 mt-4 bg-white p-2 rounded-md">
-    <div class="text-sm">血值控制比例</div>
+  <div class="text-left m-1 mt-4 bg-white pl-1 pr-1 rounded-md">
+    <div class="text-sm">血值控制比例(全部)</div>
     <ScaleChart />
   </div>
-  <div class="text-left m-2 mt-4 bg-white p-2 rounded-md">
-    <div class="text-sm">最近5次测量血值分析</div>
+  <div class="text-left mt-4 ml-1 bg-white pl-1 pr-1 rounded-md">
+    <div class="text-sm">最近1次血值结果分析</div>
+    <LatestAnalyzer :day="3" />
+    <LatestAnalyzer :day="7" />
+    <Suggest />
   </div>
 </template>
 
@@ -43,6 +46,8 @@
 import { defineComponent } from "@vue/runtime-core";
 import StatsChart from "./components/StatsChart.vue";
 import ScaleChart from "./components/ScaleChart.vue";
+import LatestAnalyzer from "./components/LatestAnalyzer.vue";
+import Suggest from "./components/Suggest.vue";
 import { useRouter } from "vue-router";
 import useProfile from "@/views/profile/hooks/useProfile";
 
@@ -50,6 +55,8 @@ export default defineComponent({
   components: {
     StatsChart,
     ScaleChart,
+    LatestAnalyzer,
+    Suggest,
   },
   setup() {
     const router = useRouter();

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!loading">
+  <div v-if="!loading" class="bg-blue-50 rounded mt-1">
     <canvas v-if="!isNullData" ref="container" />
     <van-empty v-else class="custom-image" description="请添加血值记录" />
   </div>

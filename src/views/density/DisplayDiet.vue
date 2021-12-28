@@ -17,24 +17,35 @@
     :style="{ height: '310px' }"
     color="rgb(110, 231, 183)"
   />
-  <div class="text-xs text-left pt-2 pb-2 pl-2 bg-gray-100 mt-2 mb-2 text-gray-600 tracking-wide leading-5">
-    <div>当日苯摄入量: {{ pheValueTotal }} mg</div>
-    <div v-if="breastMilkTotal">当日总母乳量: {{ breastMilkTotal }} ml</div>
-    <div>当日特奶量: {{ specialMilkTotal }} ml</div>
+  <div v-if="dietList.length">
+    <div class="text-xs text-left pt-2 pb-2 pl-2 bg-gray-100 mt-2 mb-2 text-gray-600 tracking-wide leading-5">
+      <div>当日苯摄入量: {{ pheValueTotal }} mg</div>
+      <div v-if="breastMilkTotal">当日总母乳量: {{ breastMilkTotal }} ml</div>
+      <div>当日特奶量: {{ specialMilkTotal }} ml</div>
+    </div>
+    <van-steps direction="vertical" :active="0">
+      <van-step
+        v-for="item in dietList"
+        :key="item.uuid"
+        @click="clickStep(item)"
+        class="hover:text-green-500"
+      >
+        <h3>{{ item.dietTime }}</h3>
+        <p v-if="item.dietType === 0">
+          {{ DIET_TYPE_COLUMNS[item.dietType] }} 摄入量: {{ item.specialMilk }} ml
+        </p>
+        <p v-else-if="item.dietType === 1">
+          {{ DIET_TYPE_COLUMNS[item.dietType] }} 摄入量: {{ item.breastMilk }} ml
+        </p>
+        <p v-else>{{ DIET_TYPE_COLUMNS[item.dietType] }}</p>
+        <p>苯 摄入量: {{ item.pheValue }}</p>
+      </van-step>
+    </van-steps>
   </div>
-  <van-steps direction="vertical" :active="0">
-    <van-step v-for="item in dietList" :key="item.uuid" @click="clickStep(item)" class="hover:text-green-500">
-      <h3>{{ item.dietTime }}</h3>
-      <p v-if="item.dietType === 0">
-        {{ DIET_TYPE_COLUMNS[item.dietType] }} 摄入量: {{ item.specialMilk }} ml
-      </p>
-      <p v-else-if="item.dietType === 1">
-        {{ DIET_TYPE_COLUMNS[item.dietType] }} 摄入量: {{ item.breastMilk }} ml
-      </p>
-      <p v-else>{{ DIET_TYPE_COLUMNS[item.dietType] }}</p>
-      <p>苯 摄入量: {{ item.pheValue }}</p>
-    </van-step>
-  </van-steps>
+
+  <div v-else class="mb-2 pt-2 pb-2">
+    <van-empty description="暂无喂养记录" />
+  </div>
 </template>
 
 <script lang="ts">
