@@ -1,6 +1,8 @@
 import { addDietAction, getDietAction, deleteDietAction } from "@/action/diet";
+import { searchFoodAction } from "@/action/food";
 import { HttpMessage } from "@/types";
 import { Diet, DietType, DIET_TYPE_COLUMNS, SPECIAL_MILK_TYPE_COLUMNS } from "@/types/diet";
+import { Food, FoodItem } from "@/types/food";
 import { addMinAndSecToTime, combineTime, formatExcludeMinute } from "@/utils/tool";
 import { ref, watch } from "@vue/runtime-dom";
 import { Notify } from "vant";
@@ -15,13 +17,19 @@ export default function useDiet(route: RouteLocationNormalizedLoaded, router: Ro
   const dietTypeColumns = DIET_TYPE_COLUMNS;
   const smilkTypeColumns = SPECIAL_MILK_TYPE_COLUMNS;
   const title = ref<string>("");
+  const foodItems = ref<FoodItem[]>([]);
 
   onMounted(() => {
     // 编辑场景
     if (route?.path?.includes("editDiet")) {
       title.value = "更新饮食记录";
+      //TODO: 食物饮食记录的编辑功能
       getDietAction(route.params.dietId as string).subscribe((res: HttpMessage<Diet>) => {
         if (res.code === "200") {
+          diet.value = {
+            ...res.data,
+            dietTime: formatExcludeMinute(res.data.dietTime),
+          };
           diet.value = {
             ...res.data,
             dietTime: formatExcludeMinute(res.data.dietTime),
@@ -38,21 +46,44 @@ export default function useDiet(route: RouteLocationNormalizedLoaded, router: Ro
         specialMilk: 0,
         smilkType: 0,
         breastMilk: 0,
+        foodAmount: 0,
+        foodUuid: "",
+        foodName: "",
       };
     }
   });
 
+  // 计算母乳 phe
   watch(
     () => diet.value.breastMilk,
     () => {
       diet.value.pheValue = +(+diet.value.breastMilk * 0.36).toFixed(2);
     },
+    {
+      immediate: false,
+    },
   );
 
+  // 计算特殊奶粉 phe
   watch(
     () => diet.value.specialMilk,
     () => {
       diet.value.pheValue = 0;
+    },
+    {
+      immediate: false,
+    },
+  );
+
+  // 计算食物 phe
+  watch(
+    [() => diet.value.foodAmount, () => diet.value.foodUuid],
+    () => {
+      const food = foodItems.value.find(item => item.uuid === diet.value.foodUuid);
+      diet.value.pheValue = +((food?.phe as number) * +diet.value.foodAmount).toFixed(2);
+    },
+    {
+      immediate: false,
     },
   );
 
@@ -77,6 +108,36 @@ export default function useDiet(route: RouteLocationNormalizedLoaded, router: Ro
   const setSmilkType = (type: string) => {
     diet.value.smilkType = smilkTypeColumns.indexOf(type);
     showSmilkTypePicker.value = false;
+  };
+
+  const onInputEventHandler = (food: any) => {
+    if (food.input) {
+      // 模糊查询
+      searchFoodAction(food.input).subscribe((res: HttpMessage<Food[]>) => {
+        if (res.code === "200") {
+          const temp: FoodItem[] = [];
+          res.data.map(item => {
+            temp.push({
+              name: item.name,
+              uuid: item.uuid,
+              phe: item?.phe.includes("-") ? 0 : item?.phe ? +item.phe : 0,
+            });
+          });
+          foodItems.value = temp;
+        }
+      });
+    }
+
+    return foodItems;
+  };
+
+  const itemProjectionFunction = (item: FoodItem) => {
+    return item.name;
+  };
+
+  const selectItemEventHandler = (item: FoodItem) => {
+    diet.value.foodUuid = item.uuid;
+    diet.value.foodName = item.name;
   };
 
   const saveDiet = () => {
@@ -109,6 +170,7 @@ export default function useDiet(route: RouteLocationNormalizedLoaded, router: Ro
     showDietTimePicker,
     showDietTypePicker,
     showSmilkTypePicker,
+    foodItems,
     onClickLeft,
     onClickRight,
     setDietTime,
@@ -116,5 +178,8 @@ export default function useDiet(route: RouteLocationNormalizedLoaded, router: Ro
     setSmilkType,
     saveDiet,
     removeDiet,
+    onInputEventHandler,
+    itemProjectionFunction,
+    selectItemEventHandler,
   };
 }

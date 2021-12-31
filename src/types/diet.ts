@@ -20,6 +20,9 @@ export interface Diet {
   specialMilk: number /** 特奶 */;
   smilkType: number /** 特奶品牌 */;
   breastMilk: number /** 母乳 */;
+  foodAmount: number /** 食物重量 */;
+  foodUuid: string /** 食物 uuid */;
+  foodName: string /** 食物名称 */;
 }
 
 /** 特奶品牌 */

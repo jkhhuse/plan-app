@@ -61,7 +61,28 @@
     />
   </van-popup>
   <van-field v-if="diet.dietType === 0" v-model="diet.specialMilk" type="number" label="特奶量(ml)" />
-  <van-field v-if="diet.dietType === 1" v-model="diet.breastMilk" type="number" label="母乳量(ml)" />
+  <van-field v-else-if="diet.dietType === 1" v-model="diet.breastMilk" type="number" label="母乳量(ml)" />
+  <div v-else class="flex flex-row text-xs text-gray-600">
+    <div class="leading-8 pl-3 text-left" style="width: 7.8em; margin-left: 1px">食物名称</div>
+    <vue3-simple-typeahead
+      id="typeahead_id"
+      placeholder="输入进行查找..."
+      class="text-left pl-3"
+      :items="foodItems"
+      :minInputLength="1"
+      :itemProjection="itemProjectionFunction"
+      @selectItem="selectItemEventHandler"
+      @onInput="onInputEventHandler"
+      @onFocus="onFocusEventHandler"
+      @onBlur="onBlurEventHandler"
+    >
+    </vue3-simple-typeahead>
+  </div>
+  <div v-if="diet.dietType !== 1 && diet.dietType !== 0" class="ml-4 mr-4 border-b border-gray-100"></div>
+  <div v-if="diet.dietType !== 1 && diet.dietType !== 0">
+    <van-field v-model="diet.foodAmount" type="number" label="食物重量(g)" />
+  </div>
+  <div v-if="diet.dietType !== 1 && diet.dietType !== 0" class="ml-4 mr-4 border-b border-gray-100"></div>
   <van-field v-model="diet.pheValue" type="number" label="苯计算(mg)" />
   <van-field
     v-model="diet.dietContent"
@@ -98,11 +119,15 @@ export default defineComponent({
       showDietTimePicker,
       showDietTypePicker,
       showSmilkTypePicker,
+      foodItems,
       onClickLeft,
       onClickRight,
       setDietTime,
       setDietType,
       setSmilkType,
+      onInputEventHandler,
+      itemProjectionFunction,
+      selectItemEventHandler,
       saveDiet,
       removeDiet,
     } = useDiet(route, router);
@@ -123,9 +148,21 @@ export default defineComponent({
       setSmilkType,
       saveDiet,
       removeDiet,
+      foodItems,
+      onInputEventHandler,
+      itemProjectionFunction,
+      selectItemEventHandler,
     };
   },
 });
 </script>
 
-<style></style>
+<style>
+.simple-typeahead-input {
+  padding-left: 22px !important;
+  line-height: 2.5;
+}
+.simple-typeahead-list {
+  width: 90% !important;
+}
+</style>

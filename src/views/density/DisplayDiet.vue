@@ -37,7 +37,7 @@
         <p v-else-if="item.dietType === 1">
           {{ DIET_TYPE_COLUMNS[item.dietType] }} 摄入量: {{ item.breastMilk }} ml
         </p>
-        <p v-else>{{ DIET_TYPE_COLUMNS[item.dietType] }}</p>
+        <p v-else>{{ DIET_TYPE_COLUMNS[item.dietType] }}: {{ item.foodName }} * {{ item.foodAmount }}</p>
         <p>苯 摄入量: {{ item.pheValue }}</p>
       </van-step>
     </van-steps>

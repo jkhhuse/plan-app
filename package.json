@@ -29,7 +29,8 @@
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "vant": "^3.2.5",
     "vue": "^3.0.0",
-    "vue-router": "v4"
+    "vue-router": "v4",
+    "vue3-simple-typeahead": "^1.0.5"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.0.2",
