@@ -9621,7 +9621,7 @@ vue-template-es2015-compiler@^1.9.0:
 
 vue3-simple-typeahead@^1.0.5:
   version "1.0.5"
-  resolved "http://100.76.6.155:7707/vue3-simple-typeahead/-/vue3-simple-typeahead-1.0.5.tgz#a9ae8b3bf3e6019ef9cb3245c77b1b3da7772ee8"
+  resolved "https://registry.npmmirror.com/vue3-simple-typeahead/download/vue3-simple-typeahead-1.0.5.tgz#a9ae8b3bf3e6019ef9cb3245c77b1b3da7772ee8"
   integrity sha512-WCLhDUenFJaivPXRecSs4z/LSySlprs9yJRXssS3YLCvJhPIxRqoeLInYVUl7R2epDdJ9UFVw0RbbBadFIJJdg==
 
 vue@^3.0.0:
