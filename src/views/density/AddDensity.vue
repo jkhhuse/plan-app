@@ -34,7 +34,6 @@
 <script lang="ts">
 import { Density } from "@/types/density";
 import { defineComponent, ref } from "@vue/runtime-core";
-// import { HttpMessage } from "@/types/index";
 import { useRoute, useRouter } from "vue-router";
 import { formatDate } from "@/utils/tool";
 import { addDensityAction } from "@/action/density";
@@ -59,7 +58,7 @@ export default defineComponent({
     };
 
     const setDensityTime = (currentDate: any) => {
-      density.value.measureTime = `${currentDate.getFullYear() + 1}-${
+      density.value.measureTime = `${currentDate.getFullYear()}-${
         currentDate.getMonth() + 1
       }-${currentDate.getDate()}`;
       showPicker.value = false;

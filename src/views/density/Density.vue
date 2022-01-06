@@ -1,12 +1,12 @@
 <template>
   <div class="flex flex-row justify-between mt-2 mr-2 ml-2">
     <div class="text-left">
-      <div class="text-sm">你好, {{ profile.name }}</div>
-      <div class="text-base mt-4 tracking-wide text-dark-main font-semibold">健康管理档案</div>
+      <div class="text-sm mt-1">您好, {{ profile.name }} 目前的血值控制良好</div>
+      <div class="text-base mt-2 tracking-wide text-dark-main font-semibold">健康管理档案</div>
     </div>
     <div>头像</div>
   </div>
-  <div class="text-right mr-2">
+  <div class="text-right mr-2 ml-2">
     <van-button
       @click="displayDiet"
       icon="plus"
@@ -35,10 +35,14 @@
     <ScaleChart />
   </div>
   <div class="text-left mt-4 ml-1 bg-white pl-1 pr-1 rounded-md">
-    <div class="text-sm">最近1次血值结果分析</div>
-    <LatestAnalyzer :day="3" />
-    <LatestAnalyzer :day="7" />
-    <Suggest />
+    <div class="text-sm">最近1次({{ measureTime }})血值结果分析</div>
+    <LatestAnalyzer :stats="threeDayStats" />
+    <LatestAnalyzer :stats="sevenDayStats" />
+    <Suggest
+      :suggestSpecialMilk="suggestSpecialMilk"
+      :suggestMilkName="suggestMilkName"
+      :suggestMilkMilkMl="suggestMilkMilkMl"
+    />
   </div>
 </template>
 
@@ -50,6 +54,7 @@ import LatestAnalyzer from "./components/LatestAnalyzer.vue";
 import Suggest from "./components/Suggest.vue";
 import { useRouter } from "vue-router";
 import useProfile from "@/views/profile/hooks/useProfile";
+import useStats from "./hooks/useStats";
 
 export default defineComponent({
   components: {
@@ -63,6 +68,16 @@ export default defineComponent({
 
     const { profile } = useProfile();
 
+    const {
+      measureTime,
+      weight,
+      threeDayStats,
+      sevenDayStats,
+      suggestSpecialMilk,
+      suggestMilkName,
+      suggestMilkMilkMl,
+    } = useStats();
+
     const displayDensity = () => {
       router.push("/main/density/displayDensity");
     };
@@ -73,6 +88,13 @@ export default defineComponent({
 
     return {
       profile,
+      measureTime,
+      weight,
+      threeDayStats,
+      sevenDayStats,
+      suggestSpecialMilk,
+      suggestMilkName,
+      suggestMilkMilkMl,
       displayDensity,
       displayDiet,
     };

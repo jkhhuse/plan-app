@@ -12,7 +12,10 @@ import { Statisitcs } from "@/types/statistics";
  * @param measureTime 测量时间
  * @returns
  */
-export const searchFoodAction = (measureTime: string, days: string): Observable<HttpMessage<Statisitcs>> => {
+export const searchLatestDietAction = (
+  measureTime: string,
+  days: string,
+): Observable<HttpMessage<Statisitcs>> => {
   const url = PLAN_SERVER + "stats/latest/";
   const payload = {
     days: days,
