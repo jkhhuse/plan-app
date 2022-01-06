@@ -83,6 +83,13 @@ const routes = [
           "main-container": () => import("@/views/profile/Profile.vue"),
         },
       },
+      {
+        path: "/main/profile",
+        name: "Profile",
+        components: {
+          "main-container": () => import("@/views/profile/Profile.vue"),
+        },
+      },
     ],
   },
   {

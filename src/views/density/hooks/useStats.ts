@@ -3,6 +3,8 @@ import { searchLatestDietAction } from "@/action/statistics";
 import { HttpMessage } from "@/types";
 import { Statisitcs } from "@/types/statistics";
 import { watch, ref } from "@vue/runtime-core";
+import { getLatestMeasureTimeAction } from "@/action/density";
+import { getLatestWeightAction } from "@/action/corporeality";
 
 export default function useStats(): any {
   const measureTime = ref<string>("");
@@ -14,9 +16,22 @@ export default function useStats(): any {
   const suggestMilkMilkMl = ref<number>(0); // 推荐特奶 ml
 
   // 获得最近一次的测量时间
-  // const getLatestMeasureTime = () => {};
+  const getLatestMeasureTime = () => {
+    getLatestMeasureTimeAction().subscribe((res: HttpMessage<string>) => {
+      if (res.code === "200") {
+        measureTime.value = res.data;
+      }
+    });
+  };
 
   // TODO: 获得最近一次的体重指标信息
+  const getLatestWeight = () => {
+    getLatestWeightAction().subscribe((res: HttpMessage<number>) => {
+      if (res.code === "200") {
+        weight.value = res.data;
+      }
+    });
+  };
 
   // 获得最近一次测量时间计算的最近 3 天、7天饮食情况
   const getLatestDiet = (days: number) => {
@@ -34,16 +49,17 @@ export default function useStats(): any {
         // 饮食计算
         getLatestDiet(3);
         getLatestDiet(7);
+        getLatestWeight();
       }
     },
   );
 
   watch([() => measureTime.value, () => weight.value], () => {
-    // 计算推荐指标
+    console.log(measureTime.value + weight.value);
   });
 
   onMounted(() => {
-    console.log();
+    getLatestMeasureTime();
   });
 
   return {

@@ -5,19 +5,14 @@ import { http } from "@/action";
 import { PLAN_SERVER } from "@/constants/common";
 import { retryBackoff } from "backoff-rxjs";
 import { handleError } from "@/action/common/handle";
-import { Statisitcs } from "@/types/statistics";
 
 /**
- * 搜索最近 N 天的数据
- * @param measureTime 测量时间
+ * 获得最近一次体重记录
  * @returns
  */
-export const searchLatestDietAction = (
-  measureTime: string,
-  days: string,
-): Observable<HttpMessage<Statisitcs>> => {
-  const url = PLAN_SERVER + `stats/latest?days=${days}&measureTime=${measureTime}`;
-  return http.post<HttpMessage<Statisitcs>>(url, {}).pipe(
+export const getLatestWeightAction = (): Observable<HttpMessage<number>> => {
+  const url = PLAN_SERVER + "corporeality/weight/latest";
+  return http.get<HttpMessage<number>>(url).pipe(
     retryBackoff({
       maxRetries: 1,
       initialInterval: 4000,

@@ -9,7 +9,7 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted, watch, nextTick } from "@vue/runtime-core";
 import F2 from "@antv/f2/lib/index-all";
-import { getLatestDensityAction } from "@/action/density";
+import { getLatestDensityTopNAction } from "@/action/density";
 import { HttpMessage } from "@/types/index";
 import { DensityList, ChartType, Density } from "@/types/density";
 
@@ -21,7 +21,7 @@ export default defineComponent({
 
     onMounted(() => {
       loading.value = true;
-      getLatestDensityAction(30).subscribe((res: HttpMessage<DensityList>) => {
+      getLatestDensityTopNAction(30).subscribe((res: HttpMessage<DensityList>) => {
         loading.value = false;
         if (res.code === "200") {
           const temp: ChartType[] = [];

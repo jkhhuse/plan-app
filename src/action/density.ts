@@ -131,7 +131,7 @@ export const getDensityRangeAction = (
  * @param count TopN
  * @returns DensityList
  */
-export const getLatestDensityAction = (count: number): Observable<HttpMessage<DensityList>> => {
+export const getLatestDensityTopNAction = (count: number): Observable<HttpMessage<DensityList>> => {
   const url = PLAN_SERVER + `density/dimension/${count}`;
   return http.get<HttpMessage<DensityList>>(url).pipe(
     retryBackoff({
@@ -148,6 +148,20 @@ export const getLatestDensityAction = (count: number): Observable<HttpMessage<De
 export const getScaleDensityAction = (): Observable<HttpMessage<PieType[]>> => {
   const url = PLAN_SERVER + "density/dimension/scale";
   return http.get<HttpMessage<PieType[]>>(url).pipe(
+    retryBackoff({
+      initialInterval: 4000,
+    }),
+    catchError(handleError),
+  );
+};
+
+/**
+ * 获得最近一次测量的时间
+ * @returns date
+ */
+export const getLatestMeasureTimeAction = (): Observable<HttpMessage<string>> => {
+  const url = PLAN_SERVER + "density/latest";
+  return http.get<HttpMessage<string>>(url).pipe(
     retryBackoff({
       initialInterval: 4000,
     }),
