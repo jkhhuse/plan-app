@@ -77,17 +77,17 @@ const routes = [
       },
       /** profile */
       {
-        path: "/main/profile",
-        name: "Profile",
+        path: "/main/system",
+        name: "System",
         components: {
-          "main-container": () => import("@/views/profile/Profile.vue"),
+          "main-container": () => import("@/views/system/System.vue"),
         },
       },
       {
-        path: "/main/profile",
+        path: "/main/system/profile",
         name: "Profile",
         components: {
-          "main-container": () => import("@/views/profile/Profile.vue"),
+          "main-container": () => import("@/views/system/Profile.vue"),
         },
       },
     ],

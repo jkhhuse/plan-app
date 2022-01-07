@@ -4,7 +4,6 @@ import router from "./router";
 import Vant from "vant";
 import "vant/lib/index.css";
 import "tailwindcss/tailwind.css";
-import "@/styles/style.css";
 import SimpleTypeahead from "vue3-simple-typeahead";
 import "vue3-simple-typeahead/dist/vue3-simple-typeahead.css";
 
