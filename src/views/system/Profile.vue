@@ -1,8 +1,5 @@
 <template>
-  <van-nav-bar title="个人中心" left-text="返回" left-arrow>
-    <template #left>
-      <van-icon name="wap-nav" size="18" @click="onClickLeft" />
-    </template>
+  <van-nav-bar title="个人信息" left-text="返回" left-arrow @click-left="onClickLeft">
     <template #right>
       <van-icon name="bell" size="18" @click="onClickRight" />
     </template>
@@ -52,9 +49,11 @@ import { areaList } from "@vant/area-data";
 import { HttpMessage, VantAreaType } from "@/types/index";
 import * as crypto from "crypto-js";
 import { getProfileAction } from "@/action/profile";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   setup() {
+    const router = useRouter();
     const profile = ref<Profile>({
       name: "",
       bornTime: "",
@@ -81,9 +80,11 @@ export default defineComponent({
         .join("/");
     };
 
-    const onClickLeft = () => Toast("返回");
+    const onClickLeft = () => {
+      router.push("/main/system");
+    };
 
-    const onClickRight = () => Toast("按钮");
+    const onClickRight = () => Toast("这是一个通知");
 
     const updateProfile = () => {
       crypto.DES.decrypt(profile.value.passwd, "plan app").toString();
@@ -95,8 +96,9 @@ export default defineComponent({
       });
     });
 
-    // const saveProfile = () => {
-    // }
+    const saveProfile = () => {
+      console.log();
+    };
 
     return {
       profile,
@@ -108,7 +110,7 @@ export default defineComponent({
       onClickLeft,
       onClickRight,
       updateProfile,
-      // saveProfile
+      saveProfile,
     };
   },
 });

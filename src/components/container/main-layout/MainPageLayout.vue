@@ -6,7 +6,7 @@
     <van-tabbar-item name="density" icon="home-o">指标</van-tabbar-item>
     <van-tabbar-item name="food" icon="friends-o">食物</van-tabbar-item>
     <van-tabbar-item name="cookbook" icon="search">菜谱</van-tabbar-item>
-    <van-tabbar-item name="profile" icon="setting-o">我的</van-tabbar-item>
+    <van-tabbar-item name="system" icon="setting-o">我的</van-tabbar-item>
   </van-tabbar>
 </template>
 
@@ -34,7 +34,7 @@ export default defineComponent({
         } else if (route.path.includes("/main/cookbook")) {
           active.value = "cookbook";
         } else {
-          active.value = "profile";
+          active.value = "system";
         }
       },
       {

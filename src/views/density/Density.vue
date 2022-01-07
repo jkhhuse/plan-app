@@ -53,7 +53,7 @@ import ScaleChart from "./components/ScaleChart.vue";
 import LatestAnalyzer from "./components/LatestAnalyzer.vue";
 import Suggest from "./components/Suggest.vue";
 import { useRouter } from "vue-router";
-import useProfile from "@/views/profile/hooks/useProfile";
+import useProfile from "@/views/system/hooks/useProfile";
 import useStats from "./hooks/useStats";
 
 export default defineComponent({
