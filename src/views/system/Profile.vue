@@ -62,6 +62,7 @@ export default defineComponent({
       addr: "",
       email: "",
       passwd: "",
+      pictureLink: "",
     });
 
     const showBornTime = ref<boolean>(false);

@@ -6,4 +6,5 @@ export interface Profile {
   addr: string;
   email: string;
   passwd: string;
+  pictureLink: string;
 }

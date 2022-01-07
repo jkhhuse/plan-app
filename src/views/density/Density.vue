@@ -4,7 +4,9 @@
       <div class="text-sm mt-1">您好, {{ profile.name }} 目前的血值控制良好</div>
       <div class="text-base mt-2 tracking-wide text-dark-main font-semibold">健康管理档案</div>
     </div>
-    <div>头像</div>
+    <div class="h-14 w-14">
+      <img :src="profile.pictureLink" />
+    </div>
   </div>
   <div class="text-right mr-2 ml-2">
     <van-button
@@ -47,7 +49,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "@vue/runtime-core";
+import { defineComponent, onMounted } from "@vue/runtime-core";
 import StatsChart from "./components/StatsChart.vue";
 import ScaleChart from "./components/ScaleChart.vue";
 import LatestAnalyzer from "./components/LatestAnalyzer.vue";
@@ -66,7 +68,7 @@ export default defineComponent({
   setup() {
     const router = useRouter();
 
-    const { profile } = useProfile();
+    const { profile, fetchPictureLink } = useProfile();
 
     const {
       measureTime,
@@ -85,6 +87,10 @@ export default defineComponent({
     const displayDiet = () => {
       router.push("/main/density/displayDiet");
     };
+
+    onMounted(() => {
+      fetchPictureLink();
+    });
 
     return {
       profile,
