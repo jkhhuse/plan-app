@@ -13,7 +13,8 @@ import { Food } from "@/types/food";
  * @returns
  */
 export const searchFoodAction = (foodName: string): Observable<HttpMessage<Food[]>> => {
-  const url = PLAN_SERVER + `food/search/${foodName}`;
+  const searchWord = foodName ? foodName : "%20";
+  const url = PLAN_SERVER + `food/search/${searchWord}`;
   return http.get<HttpMessage<Food[]>>(url).pipe(
     retryBackoff({
       maxRetries: 1,
