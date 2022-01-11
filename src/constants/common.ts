@@ -6,6 +6,8 @@ if (process.env.NODE_ENV === "development") {
 
   /** DEV URL */
   PLAN_SERVER = "http://localhost:8080/";
+} else {
+  PLAN_SERVER = "http://localhost:8080/";
 }
 
 export { PLAN_SERVER };
