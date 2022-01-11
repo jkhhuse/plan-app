@@ -50,11 +50,5 @@
     "prettier": "^2.2.1",
     "stylelint-prettier": "^1.1.2",
     "typescript": "~4.1.5"
-  },
-  "browserslist": [
-    "last 1 version",
-    "> 1%",
-    "maintained node versions",
-    "not dead"
-  ]
+  }
 }
