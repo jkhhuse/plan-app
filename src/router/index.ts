@@ -7,56 +7,63 @@ const routes = [
   },
   {
     path: "/main",
-    component: () => import("@/components/container/main-layout/MainPageLayout.vue"),
+    component: () =>
+      import(
+        /* webpackChunkName: "MainPageLayout" */ "@/components/container/main-layout/MainPageLayout.vue"
+      ),
     children: [
       /** Density */
       {
         path: "/main/density",
         name: "Density",
         components: {
-          "main-container": () => import("@/views/density/Density.vue"),
+          "main-container": () => import(/* webpackChunkName: "Density" */ "@/views/density/Density.vue"),
         },
       },
       {
         path: "/main/density/displayDensity",
         name: "DisplayDensity",
         components: {
-          "main-container": () => import("@/views/density/DisplayDensity.vue"),
+          "main-container": () =>
+            import(/* webpackChunkName: "DisplayDensity" */ "@/views/density/DisplayDensity.vue"),
         },
       },
       {
         path: "/main/density/addDensity",
         name: "AddDensity",
         components: {
-          "main-container": () => import("@/views/density/AddDensity.vue"),
+          "main-container": () =>
+            import(/* webpackChunkName: "AddDensity" */ "@/views/density/AddDensity.vue"),
         },
       },
       {
         path: "/main/density/updateDensity/:uuid/:measureTime/:measureValue",
         name: "EditDensity",
         components: {
-          "main-container": () => import("@/views/density/EditDensity.vue"),
+          "main-container": () =>
+            import(/* webpackChunkName: "EditDensity" */ "@/views/density/EditDensity.vue"),
         },
       },
       {
         path: "/main/density/addDiet/:date",
         name: "addDiet",
         components: {
-          "main-container": () => import("@/views/density/AddDiet.vue"),
+          "main-container": () => import(/* webpackChunkName: "AddDietDate" */ "@/views/density/AddDiet.vue"),
         },
       },
       {
         path: "/main/density/editDiet/:dietId/:date",
         name: "EditDiet",
         components: {
-          "main-container": () => import("@/views/density/AddDiet.vue"),
+          "main-container": () => import(/* webpackChunkName: "AddDiet" */ "@/views/density/AddDiet.vue"),
         },
       },
       {
         path: "/main/density/displayDiet",
         name: "DisplayDiet",
         components: {
-          "main-container": () => import("@/views/density/DisplayDiet.vue"),
+          "main-container": () =>
+            import(/* webpackChunkName: "DisplayDiet" */ "@/views/density/DisplayDiet.vue"),
         },
       },
       /** Food */
@@ -64,7 +71,7 @@ const routes = [
         path: "/main/food",
         name: "Food",
         components: {
-          "main-container": () => import("@/views/food/Food.vue"),
+          "main-container": () => import(/* webpackChunkName: "Food" */ "@/views/food/Food.vue"),
         },
       },
       /** CookBook */
@@ -72,7 +79,7 @@ const routes = [
         path: "/main/cookbook",
         name: "Cookbook",
         components: {
-          "main-container": () => import("@/views/cookbook/Cookbook.vue"),
+          "main-container": () => import(/* webpackChunkName: "Cookbook" */ "@/views/cookbook/Cookbook.vue"),
         },
       },
       /** profile */
@@ -80,21 +87,21 @@ const routes = [
         path: "/main/system",
         name: "System",
         components: {
-          "main-container": () => import("@/views/system/System.vue"),
+          "main-container": () => import(/* webpackChunkName: "System" */ "@/views/system/System.vue"),
         },
       },
       {
         path: "/main/system/profile",
         name: "Profile",
         components: {
-          "main-container": () => import("@/views/system/Profile.vue"),
+          "main-container": () => import(/* webpackChunkName: "Profile" */ "@/views/system/Profile.vue"),
         },
       },
     ],
   },
   {
     path: "/login",
-    component: () => import("@/views/auth/Login.vue"),
+    component: () => import(/* webpackChunkName: "Login" */ "@/views/auth/Login.vue"),
   },
 ];
 
