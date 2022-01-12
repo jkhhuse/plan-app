@@ -96,9 +96,7 @@ export class RespInterceptor implements HttpInterceptor {
     const currentUser = authUserInfo.getCurrentUserValue();
     const router = useRouter();
 
-    const baseHeader = req.headers
-      .set("X-Requested-With", "XMLHttpRequest")
-      .set("Set-Cookie", "SameSite=none");
+    const baseHeader = req.headers.set("Set-Cookie", "SameSite=none");
 
     const authReq = req.clone({
       headers:
