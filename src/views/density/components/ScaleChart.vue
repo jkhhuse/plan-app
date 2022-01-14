@@ -1,6 +1,6 @@
 <template>
   <div v-if="!loading" class="bg-blue-50 rounded mt-1">
-    <canvas v-if="!isNullData" ref="container" />
+    <canvas v-if="!isNullData" ref="container" :width="width - 16" />
     <van-empty v-else class="custom-image" description="请添加血值记录" />
   </div>
   <van-loading v-else type="spinner" class="text-center" />
@@ -13,6 +13,7 @@ import { HttpMessage } from "@/types";
 import { PieType, PieTypeRender } from "@/types/density";
 import { getScaleDensityAction } from "@/action/density";
 import { nextTick } from "vue";
+import { useWindowSize } from "@/utils/useWindowSize";
 
 export default defineComponent({
   setup() {
@@ -20,6 +21,7 @@ export default defineComponent({
     const data = ref<PieTypeRender[]>([]);
     const isNullData = ref<boolean>(false);
     const loading = ref<boolean>(false);
+    const { width } = useWindowSize();
 
     onMounted(() => {
       loading.value = true;
@@ -95,6 +97,7 @@ export default defineComponent({
       data,
       isNullData,
       loading,
+      width,
     };
   },
 });

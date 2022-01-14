@@ -65,11 +65,12 @@ import protein from "@/assets/icons/protein.svg";
 import phe from "@/assets/icons/phe.svg";
 
 interface Props {
+  day: number;
   stats: Statisitcs;
 }
 
 export default defineComponent({
-  props: ["stats"],
+  props: ["day", "stats"],
   setup(props: Props) {
     const pushToast = (text: string, content: string) => {
       Toast(text + ": " + content);

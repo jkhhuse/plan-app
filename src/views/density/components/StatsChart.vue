@@ -1,6 +1,6 @@
 <template>
   <div v-show="!loading" class="bg-blue-50 rounded mt-1">
-    <canvas v-if="data.length" ref="cLine" />
+    <canvas v-if="data.length" ref="cLine" :width="width - 16" />
     <van-empty v-else class="custom-image" description="请添加血值记录" />
   </div>
   <van-loading v-show="loading" type="spinner" class="text-center" />
@@ -12,12 +12,14 @@ import F2 from "@antv/f2/lib/index-all";
 import { getLatestDensityTopNAction } from "@/action/density";
 import { HttpMessage } from "@/types/index";
 import { DensityList, ChartType, Density } from "@/types/density";
+import { useWindowSize } from "@/utils/useWindowSize";
 
 export default defineComponent({
   setup() {
     const cLine = ref<any>(null);
     const data = ref<ChartType[]>([]);
     const loading = ref<boolean>(false);
+    const { width } = useWindowSize();
 
     onMounted(() => {
       loading.value = true;
@@ -108,6 +110,7 @@ export default defineComponent({
       loading,
       cLine,
       data,
+      width,
     };
   },
 });

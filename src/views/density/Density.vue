@@ -38,8 +38,8 @@
   </div>
   <div class="text-left mt-4 ml-1 bg-white pl-1 pr-1 rounded-md">
     <div class="text-sm">最近1次({{ measureTime }})血值结果分析</div>
-    <LatestAnalyzer :stats="threeDayStats" />
-    <LatestAnalyzer :stats="sevenDayStats" />
+    <LatestAnalyzer :stats="threeDayStats" :day="3" />
+    <LatestAnalyzer :stats="sevenDayStats" :day="7" />
     <Suggest
       :suggestSpecialMilk="suggestSpecialMilk"
       :suggestMilkName="suggestMilkName"
