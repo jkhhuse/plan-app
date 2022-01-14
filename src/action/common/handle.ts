@@ -45,6 +45,6 @@ export const getExternalService = (): any => {
       responseType: "json",
     },
   };
-  const url = "./config.json";
+  const url = "/config.json";
   return http.get(url, httpOptions).pipe(catchError(handleError));
 };
