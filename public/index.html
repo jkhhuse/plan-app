@@ -1,17 +1,71 @@
 <!DOCTYPE html>
 <html lang="">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+    <title>Plan</title>
   </head>
+  <style>
+    .loading {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      justify-content: space-between;
+      width: 2em;
+      margin-top: calc(50vh - 15px);
+      margin-left: calc(50vw - 20px);
+    }
+
+    .loading span {
+      width: 0.4em;
+      height: 1.3em;
+      background-color: #50e48d;
+    }
+
+    .loading span:nth-of-type(1) {
+      animation: grow 1s -0.45s ease-in-out infinite;
+    }
+
+    .loading span:nth-of-type(2) {
+      animation: grow 1s -0.3s ease-in-out infinite;
+    }
+
+    .loading span:nth-of-type(3) {
+      animation: grow 1s -0.15s ease-in-out infinite;
+    }
+
+    .loading span:nth-of-type(4) {
+      animation: grow 1s ease-in-out infinite;
+    }
+
+    @keyframes grow {
+      0%,
+      100% {
+        transform: scaleY(1);
+      }
+
+      50% {
+        transform: scaleY(2);
+      }
+    }
+  </style>
   <body>
     <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong
+        >We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript
+        enabled. Please enable it to continue.</strong
+      >
     </noscript>
-    <div id="app"></div>
+    <div id="app">
+      <div class="loading">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
     <!-- built files will be auto injected -->
   </body>
 </html>
