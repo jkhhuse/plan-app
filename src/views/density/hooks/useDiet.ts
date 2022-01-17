@@ -80,7 +80,7 @@ export default function useDiet(route: RouteLocationNormalizedLoaded, router: Ro
     [() => diet.value.foodAmount, () => diet.value.foodUuid],
     () => {
       const food = foodItems.value.find(item => item.uuid === diet.value.foodUuid);
-      diet.value.pheValue = +((food?.phe as number) * +diet.value.foodAmount).toFixed(2);
+      diet.value.pheValue = +(((food?.phe as number) * +diet.value.foodAmount) / 100).toFixed(2);
     },
     {
       immediate: false,

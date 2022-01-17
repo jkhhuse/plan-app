@@ -62,12 +62,25 @@
   </van-popup>
   <van-field v-if="diet.dietType === 0" v-model="diet.specialMilk" type="number" label="特奶量(ml)" />
   <van-field v-else-if="diet.dietType === 1" v-model="diet.breastMilk" type="number" label="母乳量(ml)" />
-  <div v-else class="flex flex-row text-xs text-gray-600">
-    <div class="leading-8 pl-3 text-left" style="width: 7.8em; margin-left: 1px">食物名称</div>
+  <div v-else class="flex flex-row text-xs text-gray-600 p-1.5 pl-3.5">
+    <div
+      class="
+        text-sm
+        ml-1
+        leading-7
+        sm:pl-3 sm:pb-3 sm:bt-3 sm:text-xl
+        md:pt-4 md:pb-5 md:text-3xl
+        xl:pl-3 xl:pb-7 xl:bt-7 xl:text-4xl
+        text-left
+      "
+      style="width: 7.8em"
+    >
+      食物名称
+    </div>
     <vue3-simple-typeahead
       id="typeahead_id"
       placeholder="输入进行查找..."
-      class="text-left pl-3"
+      class="text-left pl-1"
       :items="foodItems"
       :minInputLength="1"
       :itemProjection="itemProjectionFunction"
@@ -88,7 +101,7 @@
     v-model="diet.dietContent"
     rows="3"
     autosize
-    label="食物记录"
+    label="备注"
     type="textarea"
     placeholder="请输入食物"
   />
