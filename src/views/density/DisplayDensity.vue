@@ -16,6 +16,9 @@
     >
       <van-swipe-cell v-for="item in densityList" :key="item.measureTime">
         <van-cell :title="item.measureTime" :title-style="'text-align: left;'" :value="item.measureValue" />
+        <template #left>
+          <van-button square @click="addStatistics(item)" type="primary" text="统计" />
+        </template>
         <template #right>
           <van-button square @click="updateDensity(item)" type="primary" text="编辑" />
           <van-button square @click="removeDensity(item)" type="danger" text="删除" />
@@ -28,8 +31,10 @@
 
 <script lang="ts">
 import { removeDensityAction } from "@/action/density";
+import { searchLatestDietAction } from "@/action/statistics";
 import { HttpMessage } from "@/types";
 import { Density } from "@/types/density";
+import { Statisitcs } from "@/types/statistics";
 import { defineComponent } from "@vue/runtime-core";
 import { Notify } from "vant";
 import { useRouter } from "vue-router";
@@ -46,6 +51,23 @@ export default defineComponent({
 
     const onClickRight = () => {
       router.push("/main/density/addDensity");
+    };
+
+    const addStatistics = (density: Density) => {
+      searchLatestDietAction(density.measureTime, "3").subscribe((res: HttpMessage<Statisitcs>) => {
+        if (res.code === "200") {
+          Notify({ type: "success", message: density.measureTime + "最近3日数据已生成!" });
+        } else {
+          Notify({ type: "warning", message: density.measureTime + "最近3日数据生成失败!" });
+        }
+      });
+      searchLatestDietAction(density.measureTime, "7").subscribe((res: HttpMessage<Statisitcs>) => {
+        if (res.code === "200") {
+          Notify({ type: "success", message: density.measureTime + "最近7日数据已生成!" });
+        } else {
+          Notify({ type: "warning", message: density.measureTime + "最近7日数据生成失败!" });
+        }
+      });
     };
 
     const updateDensity = (density: Density) => {
@@ -75,6 +97,7 @@ export default defineComponent({
       onLoad,
       onClickLeft,
       onClickRight,
+      addStatistics,
       updateDensity,
       removeDensity,
     };

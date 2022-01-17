@@ -4,7 +4,13 @@
   </div>
   <div class="mt-8 ml-8 mr-8">
     <van-field v-model="username" label="用户名" left-icon="user-circle-o" placeholder="请输入用户名" />
-    <van-field v-model="passwd" label="密码" left-icon="closed-eye" placeholder="请输入密码" />
+    <van-field
+      v-model="passwd"
+      label="密码"
+      type="password"
+      left-icon="closed-eye"
+      placeholder="请输入密码"
+    />
     <van-button
       type="success"
       block
