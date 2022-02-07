@@ -27,6 +27,9 @@
     <div class="hover:text-green-500">忘记密码</div>
     <div class="hover:text-green-500">注册</div>
   </div>
+  <div class="fixed bottom-0 text-xs flex justify-center w-full hover:text-blue-500">
+    ICP 备案号：<a href="https://beian.miit.gov.cn/" target="_blank"> 苏ICP备2022004143号-1 </a>
+  </div>
 </template>
 
 <script lang="ts">
