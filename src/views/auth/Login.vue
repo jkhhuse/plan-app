@@ -33,18 +33,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "@vue/runtime-core";
+import { defineComponent, onMounted, ref } from "@vue/runtime-core";
 import { loginAction } from "@/action/auth";
 import { CurrentUserType, HttpMessage } from "@/types/index";
-import route from "@/router";
 import { authUserInfo } from "@/utils";
-// import * as crypto from "crypto-js";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   setup() {
     const username = ref<string>("");
     const passwd = ref<string>("");
     const loading = ref<boolean>(false);
+    const router = useRouter();
+
+    onMounted(() => {
+      const currentUser = authUserInfo.getCurrentUserValue();
+      if (currentUser?.token && currentUser?.userId) {
+        router.push("/main/density");
+      }
+    });
 
     const signIn = () => {
       loading.value = true;
@@ -60,7 +67,7 @@ export default defineComponent({
               token: res.data.token,
               userId: res.data.userId,
             });
-            route.push("/main/density");
+            router.push("/main/density");
           } else {
             loading.value = false;
           }
