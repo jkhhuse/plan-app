@@ -3,7 +3,12 @@
     <img class="status_img" :src="require(`@/assets/logo.svg`)" />
   </div>
   <div class="mt-8 ml-8 mr-8">
-    <van-field v-model="username" label="用户名" left-icon="user-circle-o" placeholder="请输入用户名" />
+    <van-field
+      v-model="username"
+      label="用户名"
+      left-icon="user-circle-o"
+      placeholder="请输入用户名"
+    />
     <van-field
       v-model="passwd"
       label="密码"
@@ -28,7 +33,9 @@
     <div class="hover:text-green-500">注册</div>
   </div>
   <div class="fixed bottom-0 text-xs flex justify-center w-full hover:text-blue-500">
-    ICP 备案号：<a href="https://beian.miit.gov.cn/" target="_blank"> 苏ICP备2022004143号-1 </a>
+    ICP 备案号：<a href="https://beian.miit.gov.cn/" target="_blank">
+      苏ICP备2022004143号-1
+    </a>
   </div>
 </template>
 
@@ -74,7 +81,7 @@ export default defineComponent({
         },
         () => {
           loading.value = false;
-        },
+        }
       );
     };
 

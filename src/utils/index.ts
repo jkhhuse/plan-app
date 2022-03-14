@@ -4,7 +4,7 @@ class AuthUserInfoSingleton {
   private static instance: AuthUserInfo;
 
   public static getInstance(): AuthUserInfo {
-    if (!AuthUserInfoSingleton.instance) {
+    if (!AuthUserInfoSingleton?.instance) {
       AuthUserInfoSingleton.instance = new AuthUserInfo();
     }
 
